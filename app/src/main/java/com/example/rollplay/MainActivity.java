@@ -1,5 +1,6 @@
 package com.example.rollplay;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -495,5 +496,16 @@ public class MainActivity extends AppCompatActivity {
             roll.setEnabled(false);
         };
         roll.setOnClickListener(RollButton);
+
+        View.OnClickListener SaveButton = v -> {
+            Intent intent = new Intent(MainActivity.this, SaveActivity.class);
+            Bundle bundle  = new Bundle();
+            bundle.putStringArrayList("Roll", MainText);
+            intent.putExtras(bundle);
+            startActivity(intent);
+            finish();
+        };
+
+        save_roll.setOnClickListener(SaveButton);
     }
 }
