@@ -10,11 +10,10 @@
         android:id="@+id/d4_button"
         android:layout_width="72dp"
         android:layout_height="72dp"
+        android:layout_marginEnd="36dp"
         android:contentDescription="@string/todo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/d6_button"
-        app:layout_constraintHorizontal_bias="0.333"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.02"
         app:srcCompat="@drawable/d4" />
@@ -47,9 +46,8 @@
         android:layout_width="72dp"
         android:layout_height="72dp"
         android:layout_marginTop="40dp"
+        android:layout_marginEnd="36dp"
         app:layout_constraintEnd_toStartOf="@+id/d12_button"
-        app:layout_constraintHorizontal_bias="0.34"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/d4_button"
         app:srcCompat="@drawable/d10" />
 
@@ -146,7 +144,7 @@
         android:layout_width="109dp"
         android:layout_height="35dp"
         android:layout_marginTop="28dp"
-        android:gravity="right"
+        android:gravity="start"
         android:text="@string/modifier"
         android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/modifier_input"
@@ -245,7 +243,7 @@
         android:layout_marginStart="12dp"
         android:layout_marginTop="32dp"
         android:gravity="center|center_horizontal"
-        android:text="20"
+        android:text="@string/_20"
         app:layout_constraintStart_toEndOf="@+id/rolls_bar"
         app:layout_constraintTop_toBottomOf="@+id/d20_button" />
 

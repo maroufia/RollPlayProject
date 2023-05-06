@@ -2,7 +2,6 @@ package com.example.rollplay;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,8 +29,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        ArrayList<String> MainText = new ArrayList<>();
 
         ImageButton d4 = findViewById(R.id.d4_button);
         ImageButton d6 = findViewById(R.id.d6_button);
@@ -75,6 +72,70 @@ public class MainActivity extends AppCompatActivity {
         details.setEnabled(false);
         ImageButton settings = findViewById(R.id.settings_button);
         settings.setEnabled(true);
+
+        //--------------------------------------------------
+        //After selecting a saved roll
+        //--------------------------------------------------
+
+        ArrayList<String> MainTextTemp = new ArrayList<>();
+
+        Bundle b = getIntent().getExtras();
+        if (b != null) {
+            MainTextTemp = b.getStringArrayList("Main Text");
+            modifier_input.setText(b.getString("Modifier"));
+            int[] selectedDice = b.getIntArray("Dice");
+            main_view.setText(b.getString("Display"));
+            for (int i=0; i < selectedDice.length; i++) {
+                switch (i) {
+                    case 0:
+                        if (selectedDice[i] == 0)
+                            d4_enabled = false;
+                        break;
+                    case 1:
+                        if (selectedDice[i] == 0)
+                            d6_enabled = false;
+                        break;
+                    case 2:
+                        if (selectedDice[i] == 0)
+                            d8_enabled = false;
+                        break;
+                    case 3:
+                        if (selectedDice[i] == 0)
+                            d10_enabled = false;
+                        break;
+                    case 4:
+                        if (selectedDice[i] == 0)
+                            d12_enabled = false;
+                        break;
+                    case 5:
+                        if (selectedDice[i] == 0)
+                            d20_enabled = false;
+                        break;
+                }
+            }
+            d4.setEnabled(false);
+            d4.setImageResource(R.drawable.d4_disabled);
+            d6.setEnabled(false);
+            d6.setImageResource(R.drawable.d6_disabled);
+            d8.setEnabled(false);
+            d8.setImageResource(R.drawable.d8_disabled);
+            d10.setEnabled(false);
+            d10.setImageResource(R.drawable.d10_disabled);
+            d12.setEnabled(false);
+            d12.setImageResource(R.drawable.d12_disabled);
+            d20.setEnabled(false);
+            d20.setImageResource(R.drawable.d20_disabled);
+            plus_button.setEnabled(true);
+            plus_button.setImageResource(R.drawable.plus);
+            minus_button.setImageResource(R.drawable.minus);
+            minus_button.setEnabled(true);
+            clear_last.setEnabled(true);
+            clear_all.setEnabled(true);
+            save_roll.setEnabled(true);
+            roll.setEnabled(true);
+        }
+
+        ArrayList<String> MainText = MainTextTemp;
 
         //--------------------------------------------------
         //Listeners:
@@ -410,6 +471,7 @@ public class MainActivity extends AppCompatActivity {
                 details.setEnabled(false);
                 save_roll.setEnabled(false);
                 modifier_input.setText("");
+                modifier_input.setEnabled(true);
                 roll.setEnabled(false);
             }
             selected = "none";
@@ -424,9 +486,12 @@ public class MainActivity extends AppCompatActivity {
 
         View.OnClickListener RollButton = v -> {
             int result = 0;
-            Log.i("DEBUG",Integer.toString(MainText.size()));
-            String operation = "addition";
             int i = 0;
+            String operation = "addition";
+            if (MainText.get(0).equals("-")) {
+                operation = "subtraction";
+                i++;
+            }
             while (i+1 < MainText.size()) {
                 String character = MainText.get(i+1);
                 int dice_sum = 0;
@@ -492,12 +557,16 @@ public class MainActivity extends AppCompatActivity {
             clear_last.setEnabled(false);
             details.setEnabled(true);
             use_saved.setEnabled(false);
-            modifier_input.setText("");
+            modifier_input.setEnabled(false);
             roll.setEnabled(false);
         };
         roll.setOnClickListener(RollButton);
 
         View.OnClickListener SaveButton = v -> {
+            if (!modifier_input.getText().toString().equals("")) {
+                MainText.add("mod");
+                MainText.add(modifier_input.getText().toString());
+            }
             Intent intent = new Intent(MainActivity.this, SaveActivity.class);
             Bundle bundle  = new Bundle();
             bundle.putStringArrayList("Roll", MainText);
@@ -507,5 +576,13 @@ public class MainActivity extends AppCompatActivity {
         };
 
         save_roll.setOnClickListener(SaveButton);
+
+        View.OnClickListener useSavedButton = v -> {
+            Intent intent = new Intent(MainActivity.this, UseSavedActivity.class);
+            startActivity(intent);
+            finish();
+        };
+
+        use_saved.setOnClickListener(useSavedButton);
     }
 }
