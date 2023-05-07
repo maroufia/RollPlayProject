@@ -110,7 +110,7 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder> 
                         string += (" + " + d8 + "d8");
                         text.add("+");
                     } else
-                        string += (d4 + "d8");
+                        string += (d8 + "d8");
                     text.add(Integer.toString(d8));
                 }
                 else {
