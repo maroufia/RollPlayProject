@@ -19,7 +19,8 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.373" />
+        app:layout_constraintVertical_bias="0.373"
+        tools:ignore="VisualLintButtonSize,DuplicateSpeakableTextCheck" />
 
     <Button
         android:id="@+id/button2"
@@ -33,7 +34,8 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button"
-        app:layout_constraintVertical_bias="0.153" />
+        app:layout_constraintVertical_bias="0.153"
+        tools:ignore="VisualLintButtonSize" />
 
     <Switch
         android:id="@+id/dark_light"
@@ -43,17 +45,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.082" />
+        app:layout_constraintVertical_bias="0.082"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
 
     <TextView
         android:id="@+id/textView"
+        style="@style/TEXT"
         android:layout_width="117dp"
         android:layout_height="25dp"
         android:text="@string/light_dark_mode"
-        style="@style/TEXT"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.022" />
+        app:layout_constraintVertical_bias="0.022"
+        tools:ignore="TextSizeCheck" />
 </androidx.constraintlayout.widget.ConstraintLayout>
