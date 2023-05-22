@@ -59,4 +59,7 @@
     </string>
     <string name="confirm">Confirm</string>
     <string name="_20">20</string>
+    <string name="button">Button</string>
+    <string name="button2">Button</string>
+    <string name="light_dark_mode">Light/Dark Mode</string>
 </resources>
