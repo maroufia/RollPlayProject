@@ -484,6 +484,13 @@ public class MainActivity extends AppCompatActivity {
         clear_last.setOnClickListener(ClearSelectionsButtons);
         clear_all.setOnClickListener(ClearSelectionsButtons);
 
+        ArrayList<Integer> d4_rolls = new ArrayList<>();
+        ArrayList<Integer> d6_rolls = new ArrayList<>();
+        ArrayList<Integer> d8_rolls = new ArrayList<>();
+        ArrayList<Integer> d10_rolls = new ArrayList<>();
+        ArrayList<Integer> d12_rolls = new ArrayList<>();
+        ArrayList<Integer> d20_rolls = new ArrayList<>();
+
         View.OnClickListener RollButton = v -> {
             int result = 0;
             int i = 0;
@@ -498,33 +505,45 @@ public class MainActivity extends AppCompatActivity {
                 Random r = new Random();
                 switch (character) {
                     case "d4":
-                        for (int j = 0; j < Integer.parseInt(MainText.get(i)); j++)
+                        for (int j = 0; j < Integer.parseInt(MainText.get(i)); j++) {
                             dice_sum += 1 + r.nextInt(4);
+                            d4_rolls.add(dice_sum);
+                        }
                         i++;
                         break;
                     case "d6":
-                        for (int j = 0; j < Integer.parseInt(MainText.get(i)); j++)
+                        for (int j = 0; j < Integer.parseInt(MainText.get(i)); j++) {
                             dice_sum += 1 + r.nextInt(6);
+                            d6_rolls.add(dice_sum);
+                        }
                         i++;
                         break;
                     case "d8":
-                        for (int j = 0; j < Integer.parseInt(MainText.get(i)); j++)
+                        for (int j = 0; j < Integer.parseInt(MainText.get(i)); j++) {
                             dice_sum += 1 + r.nextInt(8);
+                            d8_rolls.add(dice_sum);
+                        }
                         i++;
                         break;
                     case "d10":
-                        for (int j = 0; j < Integer.parseInt(MainText.get(i)); j++)
+                        for (int j = 0; j < Integer.parseInt(MainText.get(i)); j++) {
                             dice_sum += 1 + r.nextInt(10);
+                            d10_rolls.add(dice_sum);
+                        }
                         i++;
                         break;
                     case "d12":
-                        for (int j = 0; j < Integer.parseInt(MainText.get(i)); j++)
+                        for (int j = 0; j < Integer.parseInt(MainText.get(i)); j++) {
                             dice_sum += 1 + r.nextInt(12);
+                            d12_rolls.add(dice_sum);
+                        }
                         i++;
                         break;
                     case "d20":
-                        for (int j = 0; j < Integer.parseInt(MainText.get(i)); j++)
+                        for (int j = 0; j < Integer.parseInt(MainText.get(i)); j++) {
                             dice_sum += 1 + r.nextInt(20);
+                            d20_rolls.add(dice_sum);
+                        }
                         i++;
                         break;
                     case "+":
@@ -584,5 +603,29 @@ public class MainActivity extends AppCompatActivity {
         };
 
         use_saved.setOnClickListener(useSavedButton);
+
+        /*View.OnClickListener detailsButton = v -> {
+            Intent intent = new Intent(MainActivity.this, Details.class);
+            Bundle bundle  = new Bundle();
+            bundle.putIntegerArrayList("d4", d4_rolls);
+            bundle.putIntegerArrayList("d6", d6_rolls);
+            bundle.putIntegerArrayList("d8", d8_rolls);
+            bundle.putIntegerArrayList("d10", d10_rolls);
+            bundle.putIntegerArrayList("d12", d12_rolls);
+            bundle.putIntegerArrayList("d20", d20_rolls);
+            intent.putExtras(bundle);
+            startActivity(intent);
+            finish();
+        };
+
+        details.setOnClickListener(detailsButton);*/
+
+        View.OnClickListener settingsButton = v -> {
+            Intent intent = new Intent(MainActivity.this, Settings.class);
+            startActivity(intent);
+            finish();
+        };
+
+        settings.setOnClickListener(settingsButton);
     }
 }
