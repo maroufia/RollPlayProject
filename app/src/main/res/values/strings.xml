@@ -58,7 +58,20 @@
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
     <string name="confirm">Confirm</string>
-    <string name="_20">20</string>>
+    <string name="_20">20</string>
+    <string name="button">Button</string>
+    <string name="button2">Button</string>
     <string name="light_dark_mode">Light/Dark Mode</string>
-    <string name="view_edit_saved_rolls">View/Edit Saved Rolls</string>
+    <string name="title_activity_details">Details</string>
+    <string name="title_activity_main2">MainActivity2</string>
+    <string name="title_activity_details.java">Details.java</string>
+    <string name="sort_button">sort</string>
+    <string name="view_edit_saved_rolls">view_edit_saved_rolls</string>
+    <string name="details_d4">d4</string>
+    <string name="details_d6">d6</string>
+    <string name="details_d8">d8</string>
+    <string name="details_d10">d10</string>
+    <string name="details_d12">d12</string>
+    <string name="details_d20">d20</string>
+    <string name="tag_d4">D4</string>
 </resources>
