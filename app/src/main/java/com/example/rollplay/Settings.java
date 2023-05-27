@@ -14,6 +14,8 @@ import java.util.Objects;
 public class Settings extends AppCompatActivity {
 
     SwitchCompat dark_light;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,13 +30,12 @@ public class Settings extends AppCompatActivity {
 
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
-            else
+             else
 
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-
         });
+}
 
-    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

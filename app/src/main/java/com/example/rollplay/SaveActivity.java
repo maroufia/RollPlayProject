@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import java.util.ArrayList;
 
@@ -15,8 +16,14 @@ public class SaveActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         getSupportActionBar().hide();
+
+        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+            setTheme(R.style.DarkMode);
+
+        } else {
+            setTheme(R.style.Base_Theme_RollPlay);
+        }
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_save);

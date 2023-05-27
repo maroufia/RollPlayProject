@@ -1,6 +1,7 @@
 package com.example.rollplay;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,8 +14,14 @@ public class UseSavedActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         getSupportActionBar().hide();
+
+        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+            setTheme(R.style.DarkMode);
+
+        } else {
+            setTheme(R.style.Base_Theme_RollPlay);
+        }
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_use_saved);
