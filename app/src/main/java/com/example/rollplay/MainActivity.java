@@ -28,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        getSupportActionBar().hide();
+
         if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             setTheme(R.style.DarkMode);
         } else {
@@ -618,7 +621,7 @@ public class MainActivity extends AppCompatActivity {
         use_saved.setOnClickListener(useSavedButton);
 
         View.OnClickListener detailsButton = v -> {
-            Intent intent = new Intent(MainActivity.this, Details.class);
+            Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
             Bundle bundle  = new Bundle();
             bundle.putIntegerArrayList("d4", d4_rolls);
             bundle.putIntegerArrayList("d6", d6_rolls);

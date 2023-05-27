@@ -8,12 +8,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import java.util.ArrayList;
 
-public class Details extends AppCompatActivity {
+public class DetailsActivity extends AppCompatActivity {
 
     private boolean alternate_sort;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        getSupportActionBar().hide();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
@@ -27,7 +30,7 @@ public class Details extends AppCompatActivity {
         }
 
         back_button.setOnClickListener(v -> {
-            Intent intent = new Intent(Details.this, MainActivity.class);
+            Intent intent = new Intent(DetailsActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
         });
