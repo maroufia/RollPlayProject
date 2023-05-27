@@ -58,8 +58,7 @@
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
     <string name="confirm">Confirm</string>
-    <string name="_20">20</string>
-    <string name="button">Button</string>
-    <string name="button2">Button</string>
+    <string name="_20">20</string>>
     <string name="light_dark_mode">Light/Dark Mode</string>
+    <string name="view_edit_saved_rolls">View/Edit Saved Rolls</string>
 </resources>
