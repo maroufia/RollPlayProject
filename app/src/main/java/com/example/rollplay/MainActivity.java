@@ -617,7 +617,7 @@ public class MainActivity extends AppCompatActivity {
 
         use_saved.setOnClickListener(useSavedButton);
 
-        View.OnClickListener detailsButton = v -> {
+       /* View.OnClickListener detailsButton = v -> {
             Intent intent = new Intent(MainActivity.this, Details.class);
             Bundle bundle  = new Bundle();
             bundle.putIntegerArrayList("d4", d4_rolls);
@@ -631,7 +631,7 @@ public class MainActivity extends AppCompatActivity {
             finish();
         };
 
-        details.setOnClickListener(detailsButton);
+        details.setOnClickListener(detailsButton);*/
 
         View.OnClickListener settingsButton = v -> {
             Intent intent = new Intent(MainActivity.this, Settings.class);
