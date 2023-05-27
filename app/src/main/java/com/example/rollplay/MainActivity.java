@@ -66,8 +66,8 @@ public class MainActivity extends AppCompatActivity {
 
         Button save_roll = findViewById(R.id.save_roll_button);
         save_roll.setEnabled(false);
-        Button roll = findViewById(R.id.roll_button);
-        roll.setEnabled(false);
+        Button roll_value = findViewById(R.id.roll_button);
+        roll_value.setEnabled(false);
         Button details = findViewById(R.id.details_button);
         details.setEnabled(false);
         ImageButton settings = findViewById(R.id.settings_button);
@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
             clear_last.setEnabled(true);
             clear_all.setEnabled(true);
             save_roll.setEnabled(true);
-            roll.setEnabled(true);
+            roll_value.setEnabled(true);
         }
 
         ArrayList<String> MainText = MainTextTemp;
@@ -286,7 +286,7 @@ public class MainActivity extends AppCompatActivity {
                 d20.setImageResource(R.drawable.d20);
             }
             save_roll.setEnabled(false);
-            roll.setEnabled(false);
+            roll_value.setEnabled(false);
         };
 
         plus_button.setOnClickListener(Plus_Minus_Buttons);
@@ -340,7 +340,7 @@ public class MainActivity extends AppCompatActivity {
             clear_last.setEnabled(true);
             clear_all.setEnabled(true);
             save_roll.setEnabled(true);
-            roll.setEnabled(true);
+            roll_value.setEnabled(true);
         };
 
         add_button.setOnClickListener(add_button_listener);
@@ -368,7 +368,7 @@ public class MainActivity extends AppCompatActivity {
                     minus_button.setEnabled(true);
                     minus_button.setImageResource(R.drawable.minus);
                     save_roll.setEnabled(true);
-                    roll.setEnabled(true);
+                    roll_value.setEnabled(true);
                 }
                 else {
                     String deletedSelection = MainText.get(MainText.size() - 1);
@@ -423,7 +423,7 @@ public class MainActivity extends AppCompatActivity {
                     minus_button.setEnabled(false);
                     minus_button.setImageResource(R.drawable.minus_disabled);
                     save_roll.setEnabled(false);
-                    roll.setEnabled(false);
+                    roll_value.setEnabled(false);
                 }
                 main_view.setText("");
                 String text;
@@ -472,7 +472,7 @@ public class MainActivity extends AppCompatActivity {
                 save_roll.setEnabled(false);
                 modifier_input.setText("");
                 modifier_input.setEnabled(true);
-                roll.setEnabled(false);
+                roll_value.setEnabled(false);
             }
             selected = "none";
             use_saved.setEnabled(true);
@@ -502,47 +502,54 @@ public class MainActivity extends AppCompatActivity {
             while (i+1 < MainText.size()) {
                 String character = MainText.get(i+1);
                 int dice_sum = 0;
+                int random_value;
                 Random r = new Random();
                 switch (character) {
                     case "d4":
                         for (int j = 0; j < Integer.parseInt(MainText.get(i)); j++) {
-                            dice_sum += 1 + r.nextInt(4);
-                            d4_rolls.add(dice_sum);
+                            random_value = 1 + r.nextInt(4);
+                            dice_sum += random_value;
+                            d4_rolls.add(random_value);
                         }
                         i++;
                         break;
                     case "d6":
                         for (int j = 0; j < Integer.parseInt(MainText.get(i)); j++) {
-                            dice_sum += 1 + r.nextInt(6);
-                            d6_rolls.add(dice_sum);
+                            random_value = 1 + r.nextInt(6);
+                            dice_sum += random_value;
+                            d6_rolls.add(random_value);
                         }
                         i++;
                         break;
                     case "d8":
                         for (int j = 0; j < Integer.parseInt(MainText.get(i)); j++) {
-                            dice_sum += 1 + r.nextInt(8);
-                            d8_rolls.add(dice_sum);
+                            random_value = 1 + r.nextInt(8);
+                            dice_sum += random_value;
+                            d8_rolls.add(random_value);
                         }
                         i++;
                         break;
                     case "d10":
                         for (int j = 0; j < Integer.parseInt(MainText.get(i)); j++) {
-                            dice_sum += 1 + r.nextInt(10);
-                            d10_rolls.add(dice_sum);
+                            random_value = 1 + r.nextInt(10);
+                            dice_sum += random_value;
+                            d10_rolls.add(random_value);
                         }
                         i++;
                         break;
                     case "d12":
                         for (int j = 0; j < Integer.parseInt(MainText.get(i)); j++) {
-                            dice_sum += 1 + r.nextInt(12);
-                            d12_rolls.add(dice_sum);
+                            random_value = 1 + r.nextInt(12);
+                            dice_sum += random_value;
+                            d12_rolls.add(random_value);
                         }
                         i++;
                         break;
                     case "d20":
                         for (int j = 0; j < Integer.parseInt(MainText.get(i)); j++) {
-                            dice_sum += 1 + r.nextInt(20);
-                            d20_rolls.add(dice_sum);
+                            random_value = 1 + r.nextInt(20);
+                            dice_sum += random_value;
+                            d20_rolls.add(random_value);
                         }
                         i++;
                         break;
@@ -577,9 +584,9 @@ public class MainActivity extends AppCompatActivity {
             details.setEnabled(true);
             use_saved.setEnabled(false);
             modifier_input.setEnabled(false);
-            roll.setEnabled(false);
+            roll_value.setEnabled(false);
         };
-        roll.setOnClickListener(RollButton);
+        roll_value.setOnClickListener(RollButton);
 
         View.OnClickListener SaveButton = v -> {
             if (!modifier_input.getText().toString().equals("")) {
@@ -604,7 +611,7 @@ public class MainActivity extends AppCompatActivity {
 
         use_saved.setOnClickListener(useSavedButton);
 
-        /*View.OnClickListener detailsButton = v -> {
+        View.OnClickListener detailsButton = v -> {
             Intent intent = new Intent(MainActivity.this, Details.class);
             Bundle bundle  = new Bundle();
             bundle.putIntegerArrayList("d4", d4_rolls);
@@ -618,7 +625,7 @@ public class MainActivity extends AppCompatActivity {
             finish();
         };
 
-        details.setOnClickListener(detailsButton);*/
+        details.setOnClickListener(detailsButton);
 
         View.OnClickListener settingsButton = v -> {
             Intent intent = new Intent(MainActivity.this, Settings.class);
