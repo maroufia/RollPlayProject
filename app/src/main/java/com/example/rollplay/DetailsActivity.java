@@ -68,7 +68,7 @@ public class DetailsActivity extends AppCompatActivity {
                 details.append("D4: ");
                 for (int i = 0; i < d4_rolls.size(); i++)
                     details.append(d4_rolls.get(i)).append(", ");
-                details.append("\b\b");
+                details.delete(details.length()-2, details.length()-1);
                 d4_det.append(details);
                 details = new StringBuilder();
             }
@@ -80,7 +80,7 @@ public class DetailsActivity extends AppCompatActivity {
                 details.append("D6: ");
                 for (int i = 0; i < d6_rolls.size(); i++)
                     details.append(d6_rolls.get(i)).append(", ");
-                details.append("\b\b");
+                details.delete(details.length()-2, details.length()-1);
                 d6_det.append(details);
                 details = new StringBuilder();
             }
@@ -92,7 +92,7 @@ public class DetailsActivity extends AppCompatActivity {
                 details.append("D8: ");
                 for (int i = 0; i < d8_rolls.size(); i++)
                     details.append(d8_rolls.get(i)).append(", ");
-                details.append("\b\b");
+                details.delete(details.length()-2, details.length()-1);
                 d8_det.append(details);
                 details = new StringBuilder();
             }
@@ -104,7 +104,7 @@ public class DetailsActivity extends AppCompatActivity {
                 details.append("D10: ");
                 for (int i = 0; i < d10_rolls.size(); i++)
                     details.append(d10_rolls.get(i)).append(", ");
-                details.append("\b\b");
+                details.delete(details.length()-2, details.length()-1);
                 d10_det.append(details);
                 details = new StringBuilder();
             }
@@ -116,7 +116,7 @@ public class DetailsActivity extends AppCompatActivity {
                 details.append("D12: ");
                 for (int i = 0; i < d12_rolls.size(); i++)
                     details.append(d12_rolls.get(i)).append(", ");
-                details.append("\b\b");
+                details.delete(details.length()-2, details.length()-1);
                 d12_det.append(details);
                 details = new StringBuilder();
             }
@@ -128,7 +128,7 @@ public class DetailsActivity extends AppCompatActivity {
                 details.append("D20: ");
                 for (int i = 0; i < d20_rolls.size(); i++)
                     details.append(d20_rolls.get(i)).append(", ");
-                details.append("\b\b");
+                details.delete(details.length()-2, details.length()-1);
                 d20_det.append(details);
             }
         }
