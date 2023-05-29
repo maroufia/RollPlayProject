@@ -10,6 +10,7 @@
     <Button
         android:id="@+id/back_button"
         android:layout_width="wrap_content"
+        style="@style/BUTTON"
         android:layout_height="wrap_content"
         android:text="@string/back"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -56,6 +57,7 @@
     <Button
         android:id="@+id/sort_button"
         android:layout_width="wrap_content"
+        style="@style/BUTTON"
         android:layout_height="wrap_content"
         android:text="@string/sort_button"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -78,6 +80,7 @@
         <TextView
             android:id="@+id/details_d4"
             android:layout_width="wrap_content"
+            style="@style/TEXT"
             android:layout_height="0dp"
             android:gravity="center"
             android:text="@string/details_d4"
@@ -87,6 +90,7 @@
         <TextView
             android:id="@+id/details_d6"
             android:layout_width="wrap_content"
+            style="@style/TEXT"
             android:layout_height="0dp"
             android:gravity="center"
             android:text="@string/details_d6"
@@ -96,6 +100,7 @@
         <TextView
             android:id="@+id/details_d8"
             android:layout_width="wrap_content"
+            style="@style/TEXT"
             android:layout_height="0dp"
             android:gravity="center"
             android:text="@string/details_d8"
@@ -105,6 +110,7 @@
         <TextView
             android:id="@+id/details_d10"
             android:layout_width="wrap_content"
+            style="@style/TEXT"
             android:layout_height="0dp"
             android:gravity="center"
             android:text="@string/details_d10"
@@ -114,6 +120,7 @@
         <TextView
             android:id="@+id/details_d12"
             android:layout_width="wrap_content"
+            style="@style/TEXT"
             android:layout_height="0dp"
             android:gravity="center"
             android:text="@string/details_d12"
@@ -123,6 +130,7 @@
         <TextView
             android:id="@+id/details_d20"
             android:layout_width="wrap_content"
+            style="@style/TEXT"
             android:layout_height="0dp"
             android:gravity="center"
             android:text="@string/details_d20"
