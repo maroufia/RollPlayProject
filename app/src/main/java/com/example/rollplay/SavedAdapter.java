@@ -14,11 +14,10 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder> 
 
     private final Button confirmBtn;
     private String[] names;
-
     private int[][] selectedDice;
     private int[] rightSelectedDice;
-    private ArrayList<ArrayList<String>> MainText;
-    private ArrayList<String> SelectedMainText;
+    private ArrayList<String[]> MainText;
+    private String[] SelectedMainText;
     private String[] modifier;
     private String SelectedModifier;
     private String[] display;
@@ -65,11 +64,11 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder> 
     }
 
     private void initData(Roll[] rolls) {
+        ArrayList<String> text = new ArrayList<>();
         for (int i=0; i < rolls.length; i++) {
             int[] selectedDice_ = {1, 1, 1, 1, 1, 1};
             names[i] = rolls[i].getName();
             String string = "";
-            ArrayList<String> text = new ArrayList<>();
             int d4 = rolls[i].getD4();
             if (d4 != 0) {
                 selectedDice_[0] = 0;
@@ -186,8 +185,16 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder> 
                 modifier[i] = "";
             selectedDice[i] = selectedDice_;
             display[i] = string;
-            MainText.add(text);
+
+            String[] mainText = new String[text.size()];
+            for (int j = 0; j < text.size(); j++)
+                mainText[j] = text.get(j);
+
+            MainText.add(mainText);
+
+            text = new ArrayList<>();
         }
+
     }
     static class ViewHolder extends RecyclerView.ViewHolder {
         private final Button UseBtn;
@@ -221,7 +228,7 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder> 
         return rightSelectedDice;
     }
 
-    public ArrayList<String> getSelectedMainText() {
+    public String[] getSelectedMainText() {
         return SelectedMainText;
     }
 

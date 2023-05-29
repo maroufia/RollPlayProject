@@ -1,25 +1,27 @@
 package com.example.rollplay;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.SearchView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.Objects;
+
 public class UseSavedActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        getSupportActionBar().hide();
+        Objects.requireNonNull(getSupportActionBar()).hide();
 
         if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             setTheme(R.style.DarkMode);
-
-        } else {
+        }
+        else {
             setTheme(R.style.Base_Theme_RollPlay);
         }
 
@@ -55,18 +57,18 @@ public class UseSavedActivity extends AppCompatActivity {
         confirmBtn.setOnClickListener( v -> {
             Intent intent = new Intent(UseSavedActivity.this, MainActivity.class);
             Bundle bundle = new Bundle();
-            bundle.putStringArrayList("Main Text", adapter.getSelectedMainText());
+            bundle.putStringArray("Main Text", adapter.getSelectedMainText());
             bundle.putString("Modifier", adapter.getSelectedModifier());
             bundle.putIntArray("Dice", adapter.getRightSelectedDice());
             bundle.putString("Display", adapter.getSelectedDisplay());
             intent.putExtras(bundle);
-            startActivity(intent);
+            setResult(2, intent);
             finish();
         });
 
         backBtn.setOnClickListener( v -> {
             Intent intent = new Intent(UseSavedActivity.this, MainActivity.class);
-            startActivity(intent);
+            setResult(1, intent);
             finish();
         });
     }

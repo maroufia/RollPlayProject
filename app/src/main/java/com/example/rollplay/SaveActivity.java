@@ -11,12 +11,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class SaveActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        getSupportActionBar().hide();
+        Objects.requireNonNull(getSupportActionBar()).hide();
 
         if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             setTheme(R.style.DarkMode);
@@ -66,7 +67,7 @@ public class SaveActivity extends AppCompatActivity {
             switch (flag) {
                 case 0:
                     Intent intent = new Intent(SaveActivity.this, MainActivity.class);
-                    startActivity(intent);
+                    setResult(1, intent);
                     finish();
                     break;
                 case 1:
@@ -81,7 +82,7 @@ public class SaveActivity extends AppCompatActivity {
 
         View.OnClickListener backBtnListener = v -> {
             Intent intent = new Intent(SaveActivity.this, MainActivity.class);
-            startActivity(intent);
+            setResult(1, intent);
             finish();
         };
 

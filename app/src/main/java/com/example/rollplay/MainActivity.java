@@ -9,10 +9,14 @@ import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Objects;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,11 +29,12 @@ public class MainActivity extends AppCompatActivity {
     private boolean d10_enabled = true;
     private boolean d12_enabled = true;
     private boolean d20_enabled = true;
+    int[] selectedDice = {0, 0, 0, 0, 0, 0};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        getSupportActionBar().hide();
+        Objects.requireNonNull(getSupportActionBar()).hide();
 
         if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             setTheme(R.style.DarkMode);
@@ -86,65 +91,76 @@ public class MainActivity extends AppCompatActivity {
         //After selecting a saved roll
         //--------------------------------------------------
 
-        ArrayList<String> MainTextTemp = new ArrayList<>();
+        ArrayList<String> MainText = new ArrayList<>();
 
-        Bundle b = getIntent().getExtras();
-        if (b != null) {
-            MainTextTemp = b.getStringArrayList("Main Text");
-            modifier_input.setText(b.getString("Modifier"));
-            int[] selectedDice = b.getIntArray("Dice");
-            main_view.setText(b.getString("Display"));
-            for (int i=0; i < selectedDice.length; i++) {
-                switch (i) {
-                    case 0:
-                        if (selectedDice[i] == 0)
-                            d4_enabled = false;
-                        break;
-                    case 1:
-                        if (selectedDice[i] == 0)
-                            d6_enabled = false;
-                        break;
-                    case 2:
-                        if (selectedDice[i] == 0)
-                            d8_enabled = false;
-                        break;
-                    case 3:
-                        if (selectedDice[i] == 0)
-                            d10_enabled = false;
-                        break;
-                    case 4:
-                        if (selectedDice[i] == 0)
-                            d12_enabled = false;
-                        break;
-                    case 5:
-                        if (selectedDice[i] == 0)
-                            d20_enabled = false;
-                        break;
-                }
-            }
-            d4.setEnabled(false);
-            d4.setImageResource(R.drawable.d4_disabled);
-            d6.setEnabled(false);
-            d6.setImageResource(R.drawable.d6_disabled);
-            d8.setEnabled(false);
-            d8.setImageResource(R.drawable.d8_disabled);
-            d10.setEnabled(false);
-            d10.setImageResource(R.drawable.d10_disabled);
-            d12.setEnabled(false);
-            d12.setImageResource(R.drawable.d12_disabled);
-            d20.setEnabled(false);
-            d20.setImageResource(R.drawable.d20_disabled);
-            plus_button.setEnabled(true);
-            plus_button.setImageResource(R.drawable.plus);
-            minus_button.setImageResource(R.drawable.minus);
-            minus_button.setEnabled(true);
-            clear_last.setEnabled(true);
-            clear_all.setEnabled(true);
-            save_roll.setEnabled(true);
-            roll_value.setEnabled(true);
-        }
+        ActivityResultLauncher<Intent> arl = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == 2) {
 
-        ArrayList<String> MainText = MainTextTemp;
+                        Intent data = result.getData();
+                        assert data != null;
+                        Bundle b = data.getExtras();
+
+                        if (b != null) {
+                            String[] MainTextTemp = b.getStringArray("Main Text");
+                            MainText.clear();
+                            Collections.addAll(MainText, MainTextTemp);
+                            modifier_input.setText(b.getString("Modifier"));
+                            selectedDice = b.getIntArray("Dice");
+                            main_view.setText(b.getString("Display"));
+                            for (int i = 0; i < selectedDice.length; i++) {
+                                switch (i) {
+                                    case 0:
+                                        if (selectedDice[i] == 0)
+                                            d4_enabled = false;
+                                        break;
+                                    case 1:
+                                        if (selectedDice[i] == 0)
+                                            d6_enabled = false;
+                                        break;
+                                    case 2:
+                                        if (selectedDice[i] == 0)
+                                            d8_enabled = false;
+                                        break;
+                                    case 3:
+                                        if (selectedDice[i] == 0)
+                                            d10_enabled = false;
+                                        break;
+                                    case 4:
+                                        if (selectedDice[i] == 0)
+                                            d12_enabled = false;
+                                        break;
+                                    case 5:
+                                        if (selectedDice[i] == 0)
+                                            d20_enabled = false;
+                                        break;
+                                }
+                            }
+                            d4.setEnabled(false);
+                            d4.setImageResource(R.drawable.d4_disabled);
+                            d6.setEnabled(false);
+                            d6.setImageResource(R.drawable.d6_disabled);
+                            d8.setEnabled(false);
+                            d8.setImageResource(R.drawable.d8_disabled);
+                            d10.setEnabled(false);
+                            d10.setImageResource(R.drawable.d10_disabled);
+                            d12.setEnabled(false);
+                            d12.setImageResource(R.drawable.d12_disabled);
+                            d20.setEnabled(false);
+                            d20.setImageResource(R.drawable.d20_disabled);
+                            plus_button.setEnabled(true);
+                            plus_button.setImageResource(R.drawable.plus);
+                            minus_button.setImageResource(R.drawable.minus);
+                            minus_button.setEnabled(true);
+                            clear_last.setEnabled(true);
+                            clear_all.setEnabled(true);
+                            save_roll.setEnabled(true);
+                            roll_value.setEnabled(true);
+
+                        }
+                    }
+                });
 
         //--------------------------------------------------
         //Listeners:
@@ -307,21 +323,27 @@ public class MainActivity extends AppCompatActivity {
             main_view.append(rolls_bar.getProgress() + selected);
             switch (selected) {
                 case "d4":
+                    selectedDice[0] = 1;
                     d4_enabled = false;
                     break;
                 case "d6":
+                    selectedDice[1] = 1;
                     d6_enabled = false;
                     break;
                 case "d8":
+                    selectedDice[2] = 1;
                     d8_enabled = false;
                     break;
                 case "d10":
+                    selectedDice[3] = 1;
                     d10_enabled = false;
                     break;
                 case "d12":
+                    selectedDice[4] = 1;
                     d12_enabled = false;
                     break;
                 case "d20":
+                    selectedDice[5] = 1;
                     d20_enabled = false;
                     break;
             }
@@ -385,21 +407,27 @@ public class MainActivity extends AppCompatActivity {
                     MainText.remove(MainText.size()-1);
                     switch (deletedSelection) {
                         case "d4":
+                            selectedDice[0] = 0;
                             d4_enabled = true;
                             break;
                         case "d6":
+                            selectedDice[1] = 0;
                             d6_enabled = true;
                             break;
                         case "d8":
+                            selectedDice[2] = 0;
                             d8_enabled = true;
                             break;
                         case "d10":
+                            selectedDice[3] = 0;
                             d10_enabled = true;
                             break;
                         case "d12":
+                            selectedDice[4] = 0;
                             d12_enabled = true;
                             break;
                         case "d20":
+                            selectedDice[5] = 0;
                             d20_enabled = true;
                             break;
                     }
@@ -451,7 +479,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             else {
-                MainText.removeAll(MainText);
+                MainText.clear();
                 main_view.setText("");
                 d4_enabled = true;
                 d6_enabled = true;
@@ -606,16 +634,14 @@ public class MainActivity extends AppCompatActivity {
             Bundle bundle  = new Bundle();
             bundle.putStringArrayList("Roll", MainText);
             intent.putExtras(bundle);
-            startActivity(intent);
-            finish();
+            arl.launch(intent);
         };
 
         save_roll.setOnClickListener(SaveButton);
 
         View.OnClickListener useSavedButton = v -> {
             Intent intent = new Intent(MainActivity.this, UseSavedActivity.class);
-            startActivity(intent);
-            finish();
+            arl.launch(intent);
         };
 
         use_saved.setOnClickListener(useSavedButton);
@@ -629,17 +655,18 @@ public class MainActivity extends AppCompatActivity {
             bundle.putIntegerArrayList("d10", d10_rolls);
             bundle.putIntegerArrayList("d12", d12_rolls);
             bundle.putIntegerArrayList("d20", d20_rolls);
+
             intent.putExtras(bundle);
-            startActivity(intent);
-            finish();
+
+            arl.launch(intent);
+
         };
 
         details.setOnClickListener(detailsButton);
 
         View.OnClickListener settingsButton = v -> {
             Intent intent = new Intent(MainActivity.this, Settings.class);
-            startActivity(intent);
-            finish();
+            arl.launch(intent);
         };
 
         settings.setOnClickListener(settingsButton);
