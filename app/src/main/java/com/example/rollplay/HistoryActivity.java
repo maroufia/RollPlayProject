@@ -42,26 +42,36 @@ public class HistoryActivity extends AppCompatActivity {
             recentRollResults = null;
         }
 
-
+        String history_text = "";
         if (recentRolls != null)
             switch (recentRolls.size()) {
                 case 1:
-                    history1.setText(recentRolls.get(0));
+                    history_text = recentRolls.get(0) + "\nResult: " + recentRollResults.get(0);
+                    history1.setText(history_text);
                     break;
                 case 2:
-                    history1.setText(recentRolls.get(1));
-                    history2.setText(recentRolls.get(0));
+                    history_text = recentRolls.get(1) + "\nResult: " + recentRollResults.get(1);
+                    history1.setText(history_text);
+                    history_text = recentRolls.get(0) + "\nResult: " + recentRollResults.get(0);
+                    history2.setText(history_text);
                     break;
                 case 3:
-                    history1.setText(recentRolls.get(2));
-                    history2.setText(recentRolls.get(1));
-                    history3.setText(recentRolls.get(0));
+                    history_text = recentRolls.get(2) + "\nResult: " + recentRollResults.get(2);
+                    history1.setText(history_text);
+                    history_text = recentRolls.get(1) + "\nResult: " + recentRollResults.get(1);
+                    history2.setText(history_text);
+                    history_text = recentRolls.get(0) + "\nResult: " + recentRollResults.get(0);
+                    history3.setText(history_text);
                     break;
                 case 4:
-                    history1.setText(recentRolls.get(3));
-                    history2.setText(recentRolls.get(2));
-                    history3.setText(recentRolls.get(1));
-                    history4.setText(recentRolls.get(0));
+                    history_text = recentRolls.get(3) + "\nResult: " + recentRollResults.get(3);
+                    history1.setText(history_text);
+                    history_text = recentRolls.get(2) + "\nResult: " + recentRollResults.get(2);
+                    history2.setText(history_text);
+                    history_text = recentRolls.get(1) + "\nResult: " + recentRollResults.get(1);
+                    history3.setText(history_text);
+                    history_text = recentRolls.get(0) + "\nResult: " + recentRollResults.get(0);
+                    history4.setText(history_text);
                     break;
             }
 
@@ -79,4 +89,5 @@ public class HistoryActivity extends AppCompatActivity {
         });
 
     }
+
 }
