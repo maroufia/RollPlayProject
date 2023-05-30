@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +28,19 @@ public class Settings extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         final ArrayList<String> recentRolls = bundle.getStringArrayList("Recent Rolls"); // or other values
+
+        Button history = findViewById(R.id.history);
+
+        View.OnClickListener history_button = v -> {
+            Intent intent = new Intent(Settings.this, HistoryActivity.class);
+            Bundle b = new Bundle();
+            b.putStringArrayList("Recent Rolls", recentRolls);
+            intent.putExtras(b);
+            startActivity(intent);
+            finish();
+        };
+
+        history.setOnClickListener(history_button);
 
         sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         boolean darkModeEnabled = sharedPreferences.getBoolean(DARK_MODE_KEY, false);
@@ -66,4 +81,5 @@ public class Settings extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }
