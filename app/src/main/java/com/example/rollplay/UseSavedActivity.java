@@ -1,5 +1,8 @@
 package com.example.rollplay;
 
+import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
+
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -7,6 +10,7 @@ import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,8 +36,16 @@ public class UseSavedActivity extends AppCompatActivity {
         confirmBtn.setEnabled(false);
         Button backBtn = findViewById(R.id.backBtn2);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(linearLayoutManager);
+        LinearLayoutManager llm;
+        GridLayoutManager glm;
+        if (this.getResources().getConfiguration().orientation == ORIENTATION_PORTRAIT) {
+            llm = new LinearLayoutManager(this);
+            recyclerView.setLayoutManager(llm);
+        }
+        else {
+            glm = new GridLayoutManager(this, 3);
+            recyclerView.setLayoutManager(glm);
+        }
 
         DBHandler db = new DBHandler(this, null, null, 1);
         SavedAdapter adapter = new SavedAdapter(db, confirmBtn);
