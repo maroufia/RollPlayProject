@@ -6,6 +6,7 @@ import androidx.constraintlayout.helper.widget.Carousel;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.view.View;
@@ -31,6 +32,11 @@ public class HistoryActivity extends AppCompatActivity {
 
         Button back = findViewById(R.id.back);
 
+        back.setOnClickListener(v -> {
+            Intent intent = new Intent(HistoryActivity.this, Settings.class);
+            startActivity(intent);
+            finish();
+        });
 
     }
 }

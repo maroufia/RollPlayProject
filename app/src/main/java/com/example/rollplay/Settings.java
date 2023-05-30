@@ -26,8 +26,12 @@ public class Settings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        final ArrayList<String> recentRolls;
         Bundle bundle = getIntent().getExtras();
-        final ArrayList<String> recentRolls = bundle.getStringArrayList("Recent Rolls"); // or other values
+        if (bundle != null)
+            recentRolls = bundle.getStringArrayList("Recent Rolls"); // or other values
+        else
+            recentRolls = null;
 
         Button history = findViewById(R.id.history);
 
