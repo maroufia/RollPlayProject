@@ -1,6 +1,10 @@
 package com.example.rollplay;
 
+import static com.example.rollplay.Settings.DARK_MODE_KEY;
+import static com.example.rollplay.Settings.PREF_NAME;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -30,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean d12_enabled = true;
     private boolean d20_enabled = true;
     private final ArrayList<String> recentRolls = new ArrayList<>(4);
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+
 
         ImageButton d4 = findViewById(R.id.d4_button);
         ImageButton d6 = findViewById(R.id.d6_button);
@@ -665,5 +673,19 @@ public class MainActivity extends AppCompatActivity {
         };
 
         settings.setOnClickListener(settingsButton);
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        boolean darkModeEnabled = sharedPreferences.getBoolean(DARK_MODE_KEY, false);
+        applyDarkMode(darkModeEnabled);
+    }
+
+    void applyDarkMode(boolean darkModeEnabled) {
+        if (darkModeEnabled) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
 }

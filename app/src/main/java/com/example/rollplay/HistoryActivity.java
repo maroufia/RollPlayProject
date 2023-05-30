@@ -21,6 +21,10 @@ public class HistoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         getSupportActionBar().hide();
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
+            setTheme(R.style.DarkMode);
+        else
+            setTheme(R.style.Base_Theme_RollPlay);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);

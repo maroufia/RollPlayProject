@@ -10,7 +10,6 @@
 
     <Button
         android:id="@+id/SaveCrash"
-        style="@style/BUTTON"
         android:layout_width="0dp"
         android:layout_height="80dp"
         android:text="@string/view_edit_saved_rolls"
@@ -27,8 +26,8 @@
         android:layout_width="227dp"
         android:layout_height="96dp"
         android:gravity="center"
-        android:text="@string/light_dark_mode"
         style="@style/TEXT"
+        android:text="@string/light_dark_mode"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,5 +45,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dark_light" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
