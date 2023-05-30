@@ -21,6 +21,7 @@ public class Settings extends AppCompatActivity {
     static  final  String DARK_MODE_KEY = "darkMode";
     SharedPreferences sharedPreferences;
     ArrayList<String> recentRolls;
+    ArrayList<String> recentRollResults;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +29,10 @@ public class Settings extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null)
+        if (bundle != null) {
             recentRolls = bundle.getStringArrayList("Recent Rolls"); // or other values
+            recentRollResults = bundle.getStringArrayList("Recent Roll Results");
+        }
         else
             recentRolls = null;
 
@@ -39,6 +42,7 @@ public class Settings extends AppCompatActivity {
             Intent intent = new Intent(Settings.this, HistoryActivity.class);
             Bundle b = new Bundle();
             b.putStringArrayList("Recent Rolls", recentRolls);
+            b.putStringArrayList("Recent Roll Results", recentRollResults);
             intent.putExtras(b);
             startActivity(intent);
             finish();
@@ -82,6 +86,7 @@ public class Settings extends AppCompatActivity {
             Intent intent = new Intent(Settings.this, MainActivity.class);
             Bundle b = new Bundle();
             b.putStringArrayList("Recent Rolls", recentRolls);
+            b.putStringArrayList("Recent Roll Results", recentRollResults);
             intent.putExtras(b);
             startActivity(intent);
             finish();

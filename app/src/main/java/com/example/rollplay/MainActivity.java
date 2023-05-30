@@ -33,7 +33,8 @@ public class MainActivity extends AppCompatActivity {
     private boolean d10_enabled = true;
     private boolean d12_enabled = true;
     private boolean d20_enabled = true;
-    private final ArrayList<String> recentRolls = new ArrayList<>(4);
+    private ArrayList<String> recentRolls = new ArrayList<>(4);
+    private ArrayList<String> recentRollResults = new ArrayList<>(4);
     SharedPreferences sharedPreferences;
 
     @Override
@@ -98,6 +99,12 @@ public class MainActivity extends AppCompatActivity {
         //--------------------------------------------------
         //After selecting a saved roll
         //--------------------------------------------------
+
+        Bundle settings_bundle = getIntent().getExtras();
+        if (settings_bundle != null) {
+            recentRolls = settings_bundle.getStringArrayList("Recent Rolls");
+            recentRollResults = settings_bundle.getStringArrayList("Recent Roll Results");
+        }
 
         ArrayList<String> MainText = new ArrayList<>();
 
@@ -527,9 +534,6 @@ public class MainActivity extends AppCompatActivity {
         View.OnClickListener RollButton = v -> {
             int result = 0;
             int i = 0;
-            if (recentRolls.size() == 4)
-                recentRolls.remove(0);
-            recentRolls.add(main_view.getText().toString());
             String operation = "addition";
             if (MainText.get(0).equals("-")) {
                 operation = "subtraction";
@@ -610,6 +614,12 @@ public class MainActivity extends AppCompatActivity {
             if (!modifier_input.getText().toString().equals("")) {
                 result += Integer.parseInt(modifier_input.getText().toString());
             }
+            if (recentRolls.size() == 4)
+                recentRolls.remove(0);
+            recentRolls.add(main_view.getText().toString());
+            if (recentRollResults.size() == 4)
+                recentRollResults.remove(0);
+            recentRollResults.add(Integer.toString(result));
             String string = "Result:\n" + result;
             main_view.setText(string);
             plus_button.setEnabled(false);
@@ -667,6 +677,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, Settings.class);
             Bundle b = new Bundle();
             b.putStringArrayList("Recent Rolls", recentRolls);
+            b.putStringArrayList("Recent Roll Results", recentRollResults);
             intent.putExtras(b);
             startActivity(intent);
             finish();

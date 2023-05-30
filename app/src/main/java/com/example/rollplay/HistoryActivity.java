@@ -1,28 +1,22 @@
 package com.example.rollplay;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.constraintlayout.helper.widget.Carousel;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
-import android.database.DataSetObserver;
 import android.os.Bundle;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class HistoryActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        getSupportActionBar().hide();
+        Objects.requireNonNull(getSupportActionBar()).hide();
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
             setTheme(R.style.DarkMode);
         else
@@ -37,11 +31,16 @@ public class HistoryActivity extends AppCompatActivity {
         TextView history4 = findViewById(R.id.roll4);
 
         final ArrayList<String> recentRolls;
+        final ArrayList<String> recentRollResults;
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null)
+        if (bundle != null) {
             recentRolls = bundle.getStringArrayList("Recent Rolls"); // or other values
-        else
+            recentRollResults = bundle.getStringArrayList("Recent Roll Results");
+        }
+        else {
             recentRolls = null;
+            recentRollResults = null;
+        }
 
 
         if (recentRolls != null)
@@ -73,6 +72,7 @@ public class HistoryActivity extends AppCompatActivity {
             Intent intent = new Intent(HistoryActivity.this, Settings.class);
             Bundle b = new Bundle();
             b.putStringArrayList("Recent Rolls", recentRolls);
+            b.putStringArrayList("Recent Roll Results", recentRollResults);
             intent.putExtras(b);
             startActivity(intent);
             finish();
