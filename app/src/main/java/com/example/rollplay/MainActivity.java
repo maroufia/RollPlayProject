@@ -12,7 +12,6 @@ import android.widget.TextView;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,18 +28,13 @@ public class MainActivity extends AppCompatActivity {
     private boolean d10_enabled = true;
     private boolean d12_enabled = true;
     private boolean d20_enabled = true;
-    int[] selectedDice = {0, 0, 0, 0, 0, 0};
+    private final ArrayList<String> recentRolls = new ArrayList<>(4);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         Objects.requireNonNull(getSupportActionBar()).hide();
 
-        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-            setTheme(R.style.DarkMode);
-        } else {
-            setTheme(R.style.Base_Theme_RollPlay);
-        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -107,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                             MainText.clear();
                             Collections.addAll(MainText, MainTextTemp);
                             modifier_input.setText(b.getString("Modifier"));
-                            selectedDice = b.getIntArray("Dice");
+                            int[] selectedDice = b.getIntArray("Dice");
                             main_view.setText(b.getString("Display"));
                             for (int i = 0; i < selectedDice.length; i++) {
                                 switch (i) {
@@ -159,6 +153,13 @@ public class MainActivity extends AppCompatActivity {
                             roll_value.setEnabled(true);
 
                         }
+                    }
+                    else if (result.getResultCode() == 3) {
+
+                        setTheme(R.style.DarkMode);
+                        setTheme(R.style.Base_Theme_RollPlay);
+
+                        recreate();
                     }
                 });
 
@@ -323,27 +324,21 @@ public class MainActivity extends AppCompatActivity {
             main_view.append(rolls_bar.getProgress() + selected);
             switch (selected) {
                 case "d4":
-                    selectedDice[0] = 1;
                     d4_enabled = false;
                     break;
                 case "d6":
-                    selectedDice[1] = 1;
                     d6_enabled = false;
                     break;
                 case "d8":
-                    selectedDice[2] = 1;
                     d8_enabled = false;
                     break;
                 case "d10":
-                    selectedDice[3] = 1;
                     d10_enabled = false;
                     break;
                 case "d12":
-                    selectedDice[4] = 1;
                     d12_enabled = false;
                     break;
                 case "d20":
-                    selectedDice[5] = 1;
                     d20_enabled = false;
                     break;
             }
@@ -407,27 +402,21 @@ public class MainActivity extends AppCompatActivity {
                     MainText.remove(MainText.size()-1);
                     switch (deletedSelection) {
                         case "d4":
-                            selectedDice[0] = 0;
                             d4_enabled = true;
                             break;
                         case "d6":
-                            selectedDice[1] = 0;
                             d6_enabled = true;
                             break;
                         case "d8":
-                            selectedDice[2] = 0;
                             d8_enabled = true;
                             break;
                         case "d10":
-                            selectedDice[3] = 0;
                             d10_enabled = true;
                             break;
                         case "d12":
-                            selectedDice[4] = 0;
                             d12_enabled = true;
                             break;
                         case "d20":
-                            selectedDice[5] = 0;
                             d20_enabled = true;
                             break;
                     }
@@ -531,6 +520,9 @@ public class MainActivity extends AppCompatActivity {
         View.OnClickListener RollButton = v -> {
             int result = 0;
             int i = 0;
+            if (recentRolls.size() == 4)
+                recentRolls.remove(0);
+            recentRolls.add(main_view.getText().toString());
             String operation = "addition";
             if (MainText.get(0).equals("-")) {
                 operation = "subtraction";
@@ -666,6 +658,9 @@ public class MainActivity extends AppCompatActivity {
 
         View.OnClickListener settingsButton = v -> {
             Intent intent = new Intent(MainActivity.this, Settings.class);
+            Bundle b = new Bundle();
+            b.putStringArrayList("Recent Rolls", recentRolls);
+            intent.putExtras(b);
             arl.launch(intent);
         };
 

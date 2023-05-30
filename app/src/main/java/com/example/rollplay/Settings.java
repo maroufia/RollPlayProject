@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
 
+import java.util.ArrayList;
+
 public class Settings extends AppCompatActivity {
 
     SwitchCompat dark_light;
@@ -21,6 +23,9 @@ public class Settings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        Bundle bundle = getIntent().getExtras();
+        final ArrayList<String> recentRolls = bundle.getStringArrayList("Recent Rolls"); // or other values
 
         sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         boolean darkModeEnabled = sharedPreferences.getBoolean(DARK_MODE_KEY, false);
@@ -56,7 +61,8 @@ public class Settings extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             Intent intent = new Intent(Settings.this, MainActivity.class);
-            setResult(1, intent);
+            setResult(3, intent);
+            //startActivity(intent);
             finish();
         }
         return super.onOptionsItemSelected(item);
