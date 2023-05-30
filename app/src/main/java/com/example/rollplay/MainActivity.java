@@ -33,6 +33,12 @@ public class MainActivity extends AppCompatActivity {
     private boolean d10_enabled = true;
     private boolean d12_enabled = true;
     private boolean d20_enabled = true;
+    ArrayList<Integer> d4_rolls = new ArrayList<>();
+    ArrayList<Integer> d6_rolls = new ArrayList<>();
+    ArrayList<Integer> d8_rolls = new ArrayList<>();
+    ArrayList<Integer> d10_rolls = new ArrayList<>();
+    ArrayList<Integer> d12_rolls = new ArrayList<>();
+    ArrayList<Integer> d20_rolls = new ArrayList<>();
     private ArrayList<String> recentRolls = new ArrayList<>(4);
     private ArrayList<String> recentRollResults = new ArrayList<>(4);
     SharedPreferences sharedPreferences;
@@ -524,14 +530,13 @@ public class MainActivity extends AppCompatActivity {
         clear_last.setOnClickListener(ClearSelectionsButtons);
         clear_all.setOnClickListener(ClearSelectionsButtons);
 
-        ArrayList<Integer> d4_rolls = new ArrayList<>();
-        ArrayList<Integer> d6_rolls = new ArrayList<>();
-        ArrayList<Integer> d8_rolls = new ArrayList<>();
-        ArrayList<Integer> d10_rolls = new ArrayList<>();
-        ArrayList<Integer> d12_rolls = new ArrayList<>();
-        ArrayList<Integer> d20_rolls = new ArrayList<>();
-
         View.OnClickListener RollButton = v -> {
+            d4_rolls = new ArrayList<>();
+            d6_rolls = new ArrayList<>();
+            d8_rolls = new ArrayList<>();
+            d10_rolls = new ArrayList<>();
+            d12_rolls = new ArrayList<>();
+            d20_rolls = new ArrayList<>();
             int result = 0;
             int i = 0;
             String operation = "addition";
