@@ -1,6 +1,8 @@
 package com.example.rollplay;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -17,6 +19,11 @@ public class DetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         Objects.requireNonNull(getSupportActionBar()).hide();
+
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
+            setTheme(R.style.DarkMode);
+        else
+            setTheme(R.style.Base_Theme_RollPlay);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);

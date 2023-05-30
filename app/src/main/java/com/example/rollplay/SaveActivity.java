@@ -19,12 +19,10 @@ public class SaveActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Objects.requireNonNull(getSupportActionBar()).hide();
 
-        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
             setTheme(R.style.DarkMode);
-
-        } else {
+        else
             setTheme(R.style.Base_Theme_RollPlay);
-        }
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_save);

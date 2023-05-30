@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,6 +35,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         Objects.requireNonNull(getSupportActionBar()).hide();
+
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
+            setTheme(R.style.DarkMode);
+        else
+            setTheme(R.style.Base_Theme_RollPlay);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -153,13 +159,6 @@ public class MainActivity extends AppCompatActivity {
                             roll_value.setEnabled(true);
 
                         }
-                    }
-                    else if (result.getResultCode() == 3) {
-
-                        setTheme(R.style.DarkMode);
-                        setTheme(R.style.Base_Theme_RollPlay);
-
-                        recreate();
                     }
                 });
 
@@ -661,7 +660,8 @@ public class MainActivity extends AppCompatActivity {
             Bundle b = new Bundle();
             b.putStringArrayList("Recent Rolls", recentRolls);
             intent.putExtras(b);
-            arl.launch(intent);
+            startActivity(intent);
+            finish();
         };
 
         settings.setOnClickListener(settingsButton);
