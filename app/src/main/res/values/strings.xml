@@ -74,9 +74,9 @@
     <string name="details_d20">d20</string>
     <string name="tag_d4">D4</string>
     <string name="view_edit_saved_rolls">view edit / saved rolls</string>
-    <string name="history_roll_1">No roll this session</string>
-    <string name="history_roll_2">No roll this session</string>
-    <string name="history_roll_3">No roll this session</string>
-    <string name="history_roll_4">No roll this session</string>
+    <string name="history_roll_1">No more rolls this session</string>
+    <string name="history_roll_2">No more rolls this session</string>
+    <string name="history_roll_3">No more rolls this session</string>
+    <string name="history_roll_4">No more rolls this session</string>
     <string name="history">History</string>
 </resources>
