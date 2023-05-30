@@ -20,13 +20,13 @@ public class Settings extends AppCompatActivity {
     static  final  String PREF_NAME = "MyAppPrefs";
     static  final  String DARK_MODE_KEY = "darkMode";
     SharedPreferences sharedPreferences;
+    ArrayList<String> recentRolls;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        final ArrayList<String> recentRolls;
         Bundle bundle = getIntent().getExtras();
         if (bundle != null)
             recentRolls = bundle.getStringArrayList("Recent Rolls"); // or other values
@@ -80,6 +80,9 @@ public class Settings extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             Intent intent = new Intent(Settings.this, MainActivity.class);
+            Bundle b = new Bundle();
+            b.putStringArrayList("Recent Rolls", recentRolls);
+            intent.putExtras(b);
             startActivity(intent);
             finish();
         }

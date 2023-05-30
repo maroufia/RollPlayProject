@@ -15,6 +15,8 @@ import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class HistoryActivity extends AppCompatActivity {
 
     @Override
@@ -34,10 +36,44 @@ public class HistoryActivity extends AppCompatActivity {
         TextView history3 = findViewById(R.id.roll3);
         TextView history4 = findViewById(R.id.roll4);
 
+        final ArrayList<String> recentRolls;
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null)
+            recentRolls = bundle.getStringArrayList("Recent Rolls"); // or other values
+        else
+            recentRolls = null;
+
+
+        if (recentRolls != null)
+            switch (recentRolls.size()) {
+                case 1:
+                    history1.setText(recentRolls.get(0));
+                    break;
+                case 2:
+                    history1.setText(recentRolls.get(1));
+                    history2.setText(recentRolls.get(0));
+                    break;
+                case 3:
+                    history1.setText(recentRolls.get(2));
+                    history2.setText(recentRolls.get(1));
+                    history3.setText(recentRolls.get(0));
+                    break;
+                case 4:
+                    history1.setText(recentRolls.get(3));
+                    history2.setText(recentRolls.get(2));
+                    history3.setText(recentRolls.get(1));
+                    history4.setText(recentRolls.get(0));
+                    break;
+            }
+
+
         Button back = findViewById(R.id.back);
 
         back.setOnClickListener(v -> {
             Intent intent = new Intent(HistoryActivity.this, Settings.class);
+            Bundle b = new Bundle();
+            b.putStringArrayList("Recent Rolls", recentRolls);
+            intent.putExtras(b);
             startActivity(intent);
             finish();
         });
