@@ -65,7 +65,7 @@
     <string name="title_activity_details">Details</string>
     <string name="title_activity_main2">MainActivity2</string>
     <string name="title_activity_details.java">Details.java</string>
-    <string name="sort_button">sort</string>
+    <string name="sort_button">Sort</string>
     <string name="details_d4">d4</string>
     <string name="details_d6">d6</string>
     <string name="details_d8">d8</string>
@@ -73,11 +73,11 @@
     <string name="details_d12">d12</string>
     <string name="details_d20">d20</string>
     <string name="tag_d4">D4</string>
-    <string name="view_edit_saved_rolls">view edit / saved rolls</string>
     <string name="history_roll_1">No more rolls this session</string>
     <string name="history_roll_2">No more rolls this session</string>
     <string name="history_roll_3">No more rolls this session</string>
     <string name="history_roll_4">No more rolls this session</string>
     <string name="history">History</string>
-    <string name="delete">delete</string>
+    <string name="delete">Delete</string>
+    <string name="view_delete_saved_rolls">View/Delete Saved Rolls</string>
 </resources>

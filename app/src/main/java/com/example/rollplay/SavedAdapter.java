@@ -1,5 +1,9 @@
 package com.example.rollplay;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +16,8 @@ import java.util.ArrayList;
 
 public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder> {
 
-    private final Button confirmBtn;
+    private Button confirmBtn;
+    private final Context context;
     private String[] names;
     private int[][] selectedDice;
     private int[] rightSelectedDice;
@@ -23,8 +28,10 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder> 
     private String[] display;
     private String SelectedDisplay;
 
-    public SavedAdapter(DBHandler db, Button confirmBtn) {
-        this.confirmBtn = confirmBtn;
+    public SavedAdapter(DBHandler db, Context context) {
+        this.context = context;
+        if (context instanceof UseSavedActivity)
+            this.confirmBtn = (Button) ((Activity) context).findViewById(R.id.confirmBtn);
         Roll[] rolls = db.getAllRolls();
         names = new String[rolls.length];
         selectedDice = new int[rolls.length][6];
@@ -45,7 +52,7 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull SavedAdapter.ViewHolder holder, int position) {
-        String text = "Name: " + names[position] + "\nRoll: " + display[position];
+        String text = "Name: " + names[position].substring(0,1).toUpperCase() + names[position].substring(1) + "\nRoll: " + display[position];
         holder.UseBtn.setText(text);
         holder.UseBtn.setOnClickListener (v -> {
             if (confirmBtn != null) {
@@ -58,7 +65,13 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder> 
                 confirmBtn.setEnabled(true);
             }
             else {
-
+                Bundle bundle = new Bundle();
+                bundle.putString("Name", names[holder.getAbsoluteAdapterPosition()]);
+                bundle.putString("Roll", display[holder.getAbsoluteAdapterPosition()]);
+                Intent intent = new Intent(context, DeleteActivity.class);
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+                ((Activity) context).finish();
             }
         });
     }

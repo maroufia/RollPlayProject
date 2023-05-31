@@ -2,7 +2,6 @@ package com.example.rollplay;
 
 import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -48,7 +47,7 @@ public class UseSavedActivity extends AppCompatActivity {
         }
 
         DBHandler db = new DBHandler(this, null, null, 1);
-        SavedAdapter adapter = new SavedAdapter(db, confirmBtn);
+        SavedAdapter adapter = new SavedAdapter(db, this);
         recyclerView.setAdapter(adapter);
 
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

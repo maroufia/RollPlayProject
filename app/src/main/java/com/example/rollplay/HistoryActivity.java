@@ -42,7 +42,7 @@ public class HistoryActivity extends AppCompatActivity {
             recentRollResults = null;
         }
 
-        String history_text = "";
+        String history_text;
         if (recentRolls != null)
             switch (recentRolls.size()) {
                 case 1:
@@ -80,11 +80,7 @@ public class HistoryActivity extends AppCompatActivity {
 
         back.setOnClickListener(v -> {
             Intent intent = new Intent(HistoryActivity.this, Settings.class);
-            Bundle b = new Bundle();
-            b.putStringArrayList("Recent Rolls", recentRolls);
-            b.putStringArrayList("Recent Roll Results", recentRollResults);
-            intent.putExtras(b);
-            startActivity(intent);
+            setResult(1, intent);
             finish();
         });
 

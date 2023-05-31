@@ -60,6 +60,16 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void removeRoll (String name) {
+        Roll R = findRoll(name);
+        if (R != null) {
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.delete(TABLE_SAVED, COLUMN_NAME + "='" + name + "'", null);
+            db.close();
+        }
+
+    }
+
     public Roll findRoll(String roll_name) {
         roll_name = roll_name.toLowerCase();
         String query = "SELECT * FROM " + TABLE_SAVED + " WHERE " +

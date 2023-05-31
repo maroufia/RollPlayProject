@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
 
-
         ImageButton d4 = findViewById(R.id.d4_button);
         ImageButton d6 = findViewById(R.id.d6_button);
         ImageButton d8 = findViewById(R.id.d8_button);
@@ -108,8 +107,10 @@ public class MainActivity extends AppCompatActivity {
 
         Bundle settings_bundle = getIntent().getExtras();
         if (settings_bundle != null) {
-            recentRolls = settings_bundle.getStringArrayList("Recent Rolls");
-            recentRollResults = settings_bundle.getStringArrayList("Recent Roll Results");
+            recentRolls = new ArrayList<>(4);
+            recentRollResults = new ArrayList<>(4);
+            recentRolls.addAll(settings_bundle.getStringArrayList("Recent Rolls"));
+            recentRollResults.addAll(settings_bundle.getStringArrayList("Recent Roll Results"));
         }
 
         ArrayList<String> MainText = new ArrayList<>();

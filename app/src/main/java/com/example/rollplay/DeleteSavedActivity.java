@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.SearchView;
 
@@ -44,7 +46,7 @@ public class DeleteSavedActivity extends AppCompatActivity {
         }
 
         DBHandler db = new DBHandler(this, null, null, 1);
-        SavedAdapter adapter = new SavedAdapter(db, null);
+        SavedAdapter adapter = new SavedAdapter(db, this);
         recyclerView.setAdapter(adapter);
 
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -59,6 +61,14 @@ public class DeleteSavedActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        View.OnClickListener bckBtnListener = v -> {
+            Intent intent = new Intent(DeleteSavedActivity.this, Settings.class);
+            setResult(1, intent);
+            finish();
+        };
+
+        backBtn.setOnClickListener(bckBtnListener);
 
     }
 }

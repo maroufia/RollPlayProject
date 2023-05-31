@@ -7,6 +7,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -29,14 +31,17 @@ public class Settings extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            recentRolls = bundle.getStringArrayList("Recent Rolls"); // or other values
-            recentRollResults = bundle.getStringArrayList("Recent Roll Results");
-        }
-        else
-            recentRolls = null;
+        recentRolls = bundle.getStringArrayList("Recent Rolls");
+        recentRollResults = bundle.getStringArrayList("Recent Roll Results");
+
+        ActivityResultLauncher<Intent> arl = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+
+                });
 
         Button history = findViewById(R.id.history);
+        Button view_delete = findViewById(R.id.view_delete);
 
         View.OnClickListener history_button = v -> {
             Intent intent = new Intent(Settings.this, HistoryActivity.class);
@@ -44,11 +49,18 @@ public class Settings extends AppCompatActivity {
             b.putStringArrayList("Recent Rolls", recentRolls);
             b.putStringArrayList("Recent Roll Results", recentRollResults);
             intent.putExtras(b);
-            startActivity(intent);
-            finish();
+
+            arl.launch(intent);
         };
 
         history.setOnClickListener(history_button);
+
+        View.OnClickListener view_delete_lstnr = v -> {
+            Intent intent = new Intent(Settings.this, DeleteSavedActivity.class);
+            arl.launch(intent);
+        };
+
+        view_delete.setOnClickListener(view_delete_lstnr);
 
         sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         boolean darkModeEnabled = sharedPreferences.getBoolean(DARK_MODE_KEY, false);

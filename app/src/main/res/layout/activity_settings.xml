@@ -9,10 +9,10 @@
 
 
     <Button
-        android:id="@+id/SaveCrash"
+        android:id="@+id/view_delete"
         android:layout_width="182dp"
         android:layout_height="68dp"
-        android:text="@string/view_edit_saved_rolls"
+        android:text="@string/view_delete_saved_rolls"
         app:layout_constraintBottom_toTopOf="@+id/guideline40"
         app:layout_constraintEnd_toStartOf="@+id/guideline32"
         app:layout_constraintStart_toStartOf="@+id/guideline31"
