@@ -79,4 +79,5 @@
     <string name="history_roll_3">No roll this session</string>
     <string name="history_roll_4">No roll this session</string>
     <string name="history">History</string>
+    <string name="delete">delete</string>
 </resources>

@@ -48,13 +48,18 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder> 
         String text = "Name: " + names[position] + "\nRoll: " + display[position];
         holder.UseBtn.setText(text);
         holder.UseBtn.setOnClickListener (v -> {
-            SelectedMainText = MainText.get(holder.getAbsoluteAdapterPosition());
-            SelectedModifier = modifier[holder.getAbsoluteAdapterPosition()];
-            rightSelectedDice = selectedDice[holder.getAbsoluteAdapterPosition()];
-            SelectedDisplay = display[holder.getAbsoluteAdapterPosition()];
-            if (!SelectedModifier.equals(""))
-                SelectedDisplay = SelectedDisplay.substring(0, SelectedDisplay.length()-4);
-            confirmBtn.setEnabled(true);
+            if (confirmBtn != null) {
+                SelectedMainText = MainText.get(holder.getAbsoluteAdapterPosition());
+                SelectedModifier = modifier[holder.getAbsoluteAdapterPosition()];
+                rightSelectedDice = selectedDice[holder.getAbsoluteAdapterPosition()];
+                SelectedDisplay = display[holder.getAbsoluteAdapterPosition()];
+                if (!SelectedModifier.equals(""))
+                    SelectedDisplay = SelectedDisplay.substring(0, SelectedDisplay.length() - 4);
+                confirmBtn.setEnabled(true);
+            }
+            else {
+
+            }
         });
     }
 
