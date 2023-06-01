@@ -807,9 +807,12 @@ public class MainActivity extends AppCompatActivity {
             if (!modifier_input.getText().toString().equals("") && !modifier_input.getText().toString().equals("0") && !modifier_input.getText().toString().equals("-0")) {
                 result += Integer.parseInt(modifier_input.getText().toString());
                 if (Integer.parseInt(modifier_input.getText().toString()) > 0)
-                    recentModifiers.add("+" + modifier_input.getText().toString());
-                else
-                    recentModifiers.add(modifier_input.getText().toString());
+                    recentModifiers.add(" + " + modifier_input.getText().toString());
+                else{
+                    recentModifiers.add(" - " + Integer.parseInt(modifier_input.getText().toString()) * (-1));
+                }
+
+
             }
             else
                 recentModifiers.add("0");
