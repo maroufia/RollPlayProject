@@ -32,10 +32,12 @@ public class HistoryActivity extends AppCompatActivity {
 
         final ArrayList<String> recentRolls;
         final ArrayList<String> recentRollResults;
+        final ArrayList<String> recentModifiers;
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             recentRolls = bundle.getStringArrayList("Recent Rolls"); // or other values
             recentRollResults = bundle.getStringArrayList("Recent Roll Results");
+            recentModifiers = bundle.getStringArrayList("Recent Modifiers");
         }
         else {
             recentRolls = null;

@@ -80,7 +80,7 @@ public class SaveActivity extends AppCompatActivity {
 
         View.OnClickListener backBtnListener = v -> {
             Intent intent = new Intent(SaveActivity.this, MainActivity.class);
-            setResult(1, intent);
+            setResult(3, intent);
             finish();
         };
 

@@ -24,6 +24,7 @@ public class Settings extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     ArrayList<String> recentRolls;
     ArrayList<String> recentRollResults;
+    ArrayList<String> recentModifiers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,7 @@ public class Settings extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         recentRolls = bundle.getStringArrayList("Recent Rolls");
         recentRollResults = bundle.getStringArrayList("Recent Roll Results");
+        recentModifiers = bundle.getStringArrayList("Recent Modifiers");
 
         ActivityResultLauncher<Intent> arl = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -48,6 +50,7 @@ public class Settings extends AppCompatActivity {
             Bundle b = new Bundle();
             b.putStringArrayList("Recent Rolls", recentRolls);
             b.putStringArrayList("Recent Roll Results", recentRollResults);
+            b.putStringArrayList("Recent Modifiers", recentModifiers);
             intent.putExtras(b);
 
             arl.launch(intent);

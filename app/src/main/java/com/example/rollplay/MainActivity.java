@@ -6,6 +6,7 @@ import static com.example.rollplay.Settings.PREF_NAME;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,22 +26,38 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    private String selected = "none";
-    private String new_selected = "none";
-    private boolean d4_enabled = true;
-    private boolean d6_enabled = true;
-    private boolean d8_enabled = true;
-    private boolean d10_enabled = true;
-    private boolean d12_enabled = true;
-    private boolean d20_enabled = true;
-    ArrayList<Integer> d4_rolls = new ArrayList<>();
-    ArrayList<Integer> d6_rolls = new ArrayList<>();
-    ArrayList<Integer> d8_rolls = new ArrayList<>();
-    ArrayList<Integer> d10_rolls = new ArrayList<>();
-    ArrayList<Integer> d12_rolls = new ArrayList<>();
-    ArrayList<Integer> d20_rolls = new ArrayList<>();
-    private ArrayList<String> recentRolls = new ArrayList<>(4);
-    private ArrayList<String> recentRollResults = new ArrayList<>(4);
+    private String selected;
+    private String new_selected;
+
+    private ArrayList<String> MainText;
+    private boolean d4_enabled;
+    private boolean d6_enabled;
+    private boolean d8_enabled;
+    private boolean d10_enabled;
+    private boolean d12_enabled;
+    private boolean d20_enabled;
+    private boolean plus_enabled;
+    private boolean minus_enabled;
+    private boolean rollsbar_enabled;
+    private String rollsbar_text;
+    private boolean add_enabled;
+    private boolean usesaved_enabled;
+    private boolean clearlast_enabled;
+    private boolean clearall_enabled;
+    private String mainview_text;
+    private boolean modifier_enabled;
+    private boolean save_enabled;
+    private boolean roll_enabled;
+    private boolean details_enabled;
+    private ArrayList<Integer> d4_rolls;
+    private ArrayList<Integer> d6_rolls;
+    private ArrayList<Integer> d8_rolls;
+    private ArrayList<Integer> d10_rolls;
+    private ArrayList<Integer> d12_rolls;
+    private ArrayList<Integer> d20_rolls;
+    private ArrayList<String> recentRolls;
+    private ArrayList<String> recentRollResults;
+    private ArrayList<String> recentModifiers;
     SharedPreferences sharedPreferences;
 
     @Override
@@ -54,66 +71,177 @@ public class MainActivity extends AppCompatActivity {
             setTheme(R.style.Base_Theme_RollPlay);
 
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
 
+        if (savedInstanceState != null) {
+            selected = savedInstanceState.getString("selected");
+            new_selected = "none";
+            d4_enabled = savedInstanceState.getBoolean("d4_enabled");
+            d6_enabled = savedInstanceState.getBoolean("d6_enabled");
+            d8_enabled = savedInstanceState.getBoolean("d8_enabled");
+            d10_enabled = savedInstanceState.getBoolean("d10_enabled");
+            d12_enabled = savedInstanceState.getBoolean("d12_enabled");
+            d20_enabled = savedInstanceState.getBoolean("d20_enabled");
+            plus_enabled = savedInstanceState.getBoolean("plus_enabled");
+            minus_enabled = savedInstanceState.getBoolean("minus_enabled");
+            rollsbar_enabled = savedInstanceState.getBoolean("rollsbar_enabled");
+            rollsbar_text = savedInstanceState.getString("rollsbar_text");
+            add_enabled = savedInstanceState.getBoolean("add_enabled");
+            usesaved_enabled = savedInstanceState.getBoolean("usesaved_enabled");
+            clearlast_enabled = savedInstanceState.getBoolean("clearlast_enabled");
+            clearall_enabled = savedInstanceState.getBoolean("clearall_enabled");
+            mainview_text = savedInstanceState.getString("mainview_text");
+            modifier_enabled = savedInstanceState.getBoolean("modifier_enabled");
+            save_enabled = savedInstanceState.getBoolean("save_enabled");
+            roll_enabled = savedInstanceState.getBoolean("roll_enabled");
+            details_enabled = savedInstanceState.getBoolean("details_enabled");
+            d4_rolls = new ArrayList<>(savedInstanceState.getIntegerArrayList("d4_rolls"));
+            d6_rolls = new ArrayList<>(savedInstanceState.getIntegerArrayList("d6_rolls"));
+            d8_rolls = new ArrayList<>(savedInstanceState.getIntegerArrayList("d8_rolls"));
+            d10_rolls = new ArrayList<>(savedInstanceState.getIntegerArrayList("d10_rolls"));
+            d12_rolls = new ArrayList<>(savedInstanceState.getIntegerArrayList("d12_rolls"));
+            d20_rolls = new ArrayList<>(savedInstanceState.getIntegerArrayList("d20_rolls"));
+            recentRolls = new ArrayList<>(savedInstanceState.getStringArrayList("recentRolls"));
+            recentRollResults = new ArrayList<>(savedInstanceState.getStringArrayList("recentRollResults"));
+            recentModifiers = new ArrayList<>(savedInstanceState.getStringArrayList("recentModifiers"));
+            MainText = new ArrayList<>(savedInstanceState.getStringArrayList("main_text"));
+        }
+        else {
+            selected = "none";
+            new_selected = "none";
+            d4_enabled = true;
+            d6_enabled = true;
+            d8_enabled = true;
+            d10_enabled = true;
+            d12_enabled = true;
+            d20_enabled = true;
+            plus_enabled = false;
+            minus_enabled = false;
+            rollsbar_enabled = false;
+            rollsbar_text = "0";
+            add_enabled = false;
+            usesaved_enabled = true;
+            clearlast_enabled = false;
+            clearall_enabled = false;
+            mainview_text = "";
+            modifier_enabled = true;
+            save_enabled = false;
+            roll_enabled = false;
+            details_enabled = false;
+            d4_rolls = new ArrayList<>();
+            d6_rolls = new ArrayList<>();
+            d8_rolls = new ArrayList<>();
+            d10_rolls = new ArrayList<>();
+            d12_rolls = new ArrayList<>();
+            d20_rolls = new ArrayList<>();
+            recentRolls = new ArrayList<>(4);
+            recentRollResults = new ArrayList<>(4);
+            recentModifiers = new ArrayList<>(4);
+            MainText = new ArrayList<>();
+        }
+
         ImageButton d4 = findViewById(R.id.d4_button);
+        d4.setEnabled(d4_enabled);
+        if (!d4_enabled)
+            d4.setImageResource(R.drawable.d4_disabled);
         ImageButton d6 = findViewById(R.id.d6_button);
+        d6.setEnabled(d6_enabled);
+        if (!d6_enabled)
+            d6.setImageResource(R.drawable.d6_disabled);
         ImageButton d8 = findViewById(R.id.d8_button);
+        d8.setEnabled(d8_enabled);
+        if (!d8_enabled)
+            d8.setImageResource(R.drawable.d8_disabled);
         ImageButton d10 = findViewById(R.id.d10_button);
+        d10.setEnabled(d10_enabled);
+        if (!d10_enabled)
+            d10.setImageResource(R.drawable.d10_disabled);
         ImageButton d12 = findViewById(R.id.d12_button);
+        d12.setEnabled(d12_enabled);
+        if (!d12_enabled)
+            d12.setImageResource(R.drawable.d12_disabled);
         ImageButton d20 = findViewById(R.id.d20_button);
+        d20.setEnabled(d20_enabled);
+        if (!d20_enabled)
+            d20.setImageResource(R.drawable.d20_disabled);
+
+        switch (selected) {
+            case "d4":
+                d4.setImageResource(R.drawable.d4_selected);
+                break;
+            case "d6":
+                d6.setImageResource(R.drawable.d6_selected);
+                break;
+            case "d8":
+                d8.setImageResource(R.drawable.d8_selected);
+                break;
+            case "d10":
+                d10.setImageResource(R.drawable.d10_selected);
+                break;
+            case "d12":
+                d12.setImageResource(R.drawable.d12_selected);
+                break;
+            case "d20":
+                d20.setImageResource(R.drawable.d20_selected);
+                break;
+            case "none":
+                break;
+        }
 
         ImageButton plus_button = findViewById(R.id.plus_button);
-        plus_button.setEnabled(false);
-        plus_button.setImageResource(R.drawable.plus_disabled);
+        plus_button.setEnabled(plus_enabled);
+        if (!plus_enabled)
+            plus_button.setImageResource(R.drawable.plus_disabled);
         ImageButton minus_button = findViewById(R.id.minus_button);
-        minus_button.setImageResource(R.drawable.minus_disabled);
-        minus_button.setEnabled(false);
+        minus_button.setEnabled(minus_enabled);
+        if (!minus_enabled)
+            minus_button.setImageResource(R.drawable.minus_disabled);
 
         SeekBar rolls_bar = findViewById(R.id.rolls_bar);
-        rolls_bar.setEnabled(false);
+        rolls_bar.setEnabled(rollsbar_enabled);
         TextView bar_display = findViewById(R.id.bar_display);
-        bar_display.setText("0");
+        bar_display.setText(rollsbar_text);
         Button add_button = findViewById(R.id.add_roll_button);
-        add_button.setEnabled(false);
+        add_button.setEnabled(add_enabled);
 
         Button use_saved = findViewById(R.id.use_saved_button);
-        use_saved.setEnabled(true);
+        use_saved.setEnabled(usesaved_enabled);
         Button clear_last = findViewById(R.id.clear_last_button);
-        clear_last.setEnabled(false);
+        clear_last.setEnabled(clearlast_enabled);
         Button clear_all = findViewById(R.id.clear_all_button);
-        clear_all.setEnabled(false);
+        clear_all.setEnabled(clearall_enabled);
 
         TextView main_view = findViewById(R.id.main_view);
-        main_view.setText("");
+        main_view.setText(mainview_text);
 
         EditText modifier_input = findViewById(R.id.modifier_input);
-        modifier_input.setEnabled(true);
+        modifier_input.setEnabled(modifier_enabled);
 
         Button save_roll = findViewById(R.id.save_roll_button);
-        save_roll.setEnabled(false);
-        Button roll_value = findViewById(R.id.roll_button);
-        roll_value.setEnabled(false);
+        save_roll.setEnabled(save_enabled);
+        Button roll_button = findViewById(R.id.roll_button);
+        roll_button.setEnabled(roll_enabled);
         Button details = findViewById(R.id.details_button);
-        details.setEnabled(false);
+        details.setEnabled(details_enabled);
         ImageButton settings = findViewById(R.id.settings_button);
         settings.setEnabled(true);
 
         //--------------------------------------------------
-        //After selecting a saved roll
+        //After coming back from Settings
         //--------------------------------------------------
 
         Bundle settings_bundle = getIntent().getExtras();
         if (settings_bundle != null) {
             recentRolls = new ArrayList<>(4);
             recentRollResults = new ArrayList<>(4);
+            recentModifiers = new ArrayList<>(4);
             recentRolls.addAll(settings_bundle.getStringArrayList("Recent Rolls"));
             recentRollResults.addAll(settings_bundle.getStringArrayList("Recent Roll Results"));
+            recentModifiers.addAll(settings_bundle.getStringArrayList("Recent Modifiers"));
         }
-
-        ArrayList<String> MainText = new ArrayList<>();
 
         ActivityResultLauncher<Intent> arl = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -130,7 +258,8 @@ public class MainActivity extends AppCompatActivity {
                             Collections.addAll(MainText, MainTextTemp);
                             modifier_input.setText(b.getString("Modifier"));
                             int[] selectedDice = b.getIntArray("Dice");
-                            main_view.setText(b.getString("Display"));
+                            mainview_text = b.getString("Display");
+                            main_view.setText(mainview_text);
                             for (int i = 0; i < selectedDice.length; i++) {
                                 switch (i) {
                                     case 0:
@@ -172,15 +301,25 @@ public class MainActivity extends AppCompatActivity {
                             d20.setEnabled(false);
                             d20.setImageResource(R.drawable.d20_disabled);
                             plus_button.setEnabled(true);
+                            plus_enabled = true;
                             plus_button.setImageResource(R.drawable.plus);
                             minus_button.setImageResource(R.drawable.minus);
+                            minus_enabled = true;
                             minus_button.setEnabled(true);
                             clear_last.setEnabled(true);
+                            clearlast_enabled = true;
                             clear_all.setEnabled(true);
+                            clearall_enabled = true;
                             save_roll.setEnabled(true);
-                            roll_value.setEnabled(true);
+                            save_enabled = true;
+                            roll_button.setEnabled(true);
+                            roll_enabled = true;
 
                         }
+                    }
+                    else if (result.getResultCode() == 3) {
+                        MainText.remove(MainText.size() - 1);
+                        MainText.remove(MainText.size() - 1);
                     }
                 });
 
@@ -239,9 +378,12 @@ public class MainActivity extends AppCompatActivity {
                 }
                 selected = new_selected;
                 rolls_bar.setEnabled(true);
+                rollsbar_enabled = true;
                 rolls_bar.setProgress(1);
+                rollsbar_text = "1";
                 bar_display.setText("1");
                 add_button.setEnabled(true);
+                add_enabled = true;
             }
             else {
                 switch(new_selected) {
@@ -266,8 +408,11 @@ public class MainActivity extends AppCompatActivity {
                 }
                 selected = "none";
                 rolls_bar.setEnabled(false);
+                rollsbar_enabled = false;
                 bar_display.setText("0");
+                rollsbar_text = "0";
                 add_button.setEnabled(false);
+                add_enabled = false;
             }
         };
 
@@ -282,6 +427,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 bar_display.setText(String.valueOf(seekBar.getProgress()));
+                rollsbar_text = String.valueOf(seekBar.getProgress());
             }
 
             @Override
@@ -299,14 +445,18 @@ public class MainActivity extends AppCompatActivity {
             int id = v.getId();
             if (id == R.id.plus_button) {
                 MainText.add("+");
+                mainview_text += " + ";
                 main_view.append(" + ");
             } else if (id == R.id.minus_button) {
                 MainText.add("-");
+                mainview_text += " - ";
                 main_view.append(" - ");
             }
             plus_button.setEnabled(false);
+            plus_enabled = false;
             plus_button.setImageResource(R.drawable.plus_disabled);
             minus_button.setEnabled(false);
+            minus_enabled = false;
             minus_button.setImageResource(R.drawable.minus_disabled);
             if (d4_enabled) {
                 d4.setEnabled(true);
@@ -333,7 +483,9 @@ public class MainActivity extends AppCompatActivity {
                 d20.setImageResource(R.drawable.d20);
             }
             save_roll.setEnabled(false);
-            roll_value.setEnabled(false);
+            save_enabled = false;
+            roll_button.setEnabled(false);
+            roll_enabled = false;
         };
 
         plus_button.setOnClickListener(Plus_Minus_Buttons);
@@ -342,6 +494,7 @@ public class MainActivity extends AppCompatActivity {
         View.OnClickListener add_button_listener = v -> {
             MainText.add(bar_display.getText().toString());
             MainText.add(selected);
+            mainview_text += rolls_bar.getProgress() + selected;
             main_view.append(rolls_bar.getProgress() + selected);
             switch (selected) {
                 case "d4":
@@ -377,17 +530,26 @@ public class MainActivity extends AppCompatActivity {
             d20.setImageResource(R.drawable.d20_disabled);
             selected = "none";
             add_button.setEnabled(false);
+            add_enabled = false;
             rolls_bar.setEnabled(false);
+            rollsbar_enabled = false;
             rolls_bar.setProgress(1);
             bar_display.setText("0");
+            rollsbar_text = "0";
             plus_button.setEnabled(true);
+            plus_enabled = true;
             plus_button.setImageResource(R.drawable.plus);
             minus_button.setEnabled(true);
+            minus_enabled = true;
             minus_button.setImageResource(R.drawable.minus);
             clear_last.setEnabled(true);
+            clearlast_enabled = true;
             clear_all.setEnabled(true);
+            clearall_enabled = true;
             save_roll.setEnabled(true);
-            roll_value.setEnabled(true);
+            save_enabled = true;
+            roll_button.setEnabled(true);
+            roll_enabled = true;
         };
 
         add_button.setOnClickListener(add_button_listener);
@@ -411,11 +573,15 @@ public class MainActivity extends AppCompatActivity {
                     d20.setEnabled(false);
                     d20.setImageResource(R.drawable.d20_disabled);
                     plus_button.setEnabled(true);
+                    plus_enabled = true;
                     plus_button.setImageResource(R.drawable.plus);
                     minus_button.setEnabled(true);
+                    minus_enabled = true;
                     minus_button.setImageResource(R.drawable.minus);
                     save_roll.setEnabled(true);
-                    roll_value.setEnabled(true);
+                    save_enabled = true;
+                    roll_button.setEnabled(true);
+                    roll_enabled = true;
                 }
                 else {
                     String deletedSelection = MainText.get(MainText.size() - 1);
@@ -466,12 +632,17 @@ public class MainActivity extends AppCompatActivity {
                         d20.setImageResource(R.drawable.d20);
                     }
                     plus_button.setEnabled(false);
+                    plus_enabled = false;
                     plus_button.setImageResource(R.drawable.plus_disabled);
                     minus_button.setEnabled(false);
+                    minus_enabled = false;
                     minus_button.setImageResource(R.drawable.minus_disabled);
                     save_roll.setEnabled(false);
-                    roll_value.setEnabled(false);
+                    save_enabled = false;
+                    roll_button.setEnabled(false);
+                    roll_enabled = false;
                 }
+                mainview_text = "";
                 main_view.setText("");
                 String text;
                 if (MainText.size() > 0) {
@@ -485,11 +656,14 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else {
                     clear_last.setEnabled(false);
+                    clearlast_enabled = false;
                     clear_all.setEnabled(false);
+                    clearall_enabled = false;
                 }
             }
             else {
                 MainText.clear();
+                mainview_text = "";
                 main_view.setText("");
                 d4_enabled = true;
                 d6_enabled = true;
@@ -510,22 +684,34 @@ public class MainActivity extends AppCompatActivity {
                 d20.setEnabled(true);
                 d20.setImageResource(R.drawable.d20);
                 plus_button.setEnabled(false);
+                plus_enabled = false;
                 plus_button.setImageResource(R.drawable.plus_disabled);
                 minus_button.setEnabled(false);
+                minus_enabled = false;
                 minus_button.setImageResource(R.drawable.minus_disabled);
                 clear_last.setEnabled(false);
+                clearlast_enabled = false;
                 clear_all.setEnabled(false);
+                clearall_enabled = false;
                 details.setEnabled(false);
+                details_enabled = false;
                 save_roll.setEnabled(false);
+                save_enabled = false;
                 modifier_input.setText("");
                 modifier_input.setEnabled(true);
-                roll_value.setEnabled(false);
+                modifier_enabled = true;
+                roll_button.setEnabled(false);
+                roll_enabled = false;
             }
             selected = "none";
             use_saved.setEnabled(true);
+            usesaved_enabled = true;
             rolls_bar.setEnabled(false);
+            rollsbar_enabled = false;
             bar_display.setText("0");
+            rollsbar_text = "0";
             add_button.setEnabled(false);
+            add_enabled = false;
         };
 
         clear_last.setOnClickListener(ClearSelectionsButtons);
@@ -617,9 +803,14 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
             }
+            if (recentModifiers.size() == 4)
+                recentModifiers.remove(0);
             if (!modifier_input.getText().toString().equals("")) {
                 result += Integer.parseInt(modifier_input.getText().toString());
+                recentModifiers.add(modifier_input.getText().toString());
             }
+            else if (modifier_input.getText().toString().equals("") || modifier_input.getText().toString().equals("0") || modifier_input.getText().toString().equals("-0"))
+                recentModifiers.add("0");
             if (recentRolls.size() == 4)
                 recentRolls.remove(0);
             recentRolls.add(main_view.getText().toString());
@@ -627,18 +818,26 @@ public class MainActivity extends AppCompatActivity {
                 recentRollResults.remove(0);
             recentRollResults.add(Integer.toString(result));
             String string = "Result:\n" + result;
+            mainview_text = string;
             main_view.setText(string);
             plus_button.setEnabled(false);
+            plus_enabled = false;
             plus_button.setImageResource(R.drawable.plus_disabled);
             minus_button.setEnabled(false);
+            minus_enabled = false;
             minus_button.setImageResource(R.drawable.minus_disabled);
             clear_last.setEnabled(false);
+            clearlast_enabled = false;
             details.setEnabled(true);
+            details_enabled = true;
             use_saved.setEnabled(false);
+            usesaved_enabled = false;
             modifier_input.setEnabled(false);
-            roll_value.setEnabled(false);
+            modifier_enabled = false;
+            roll_button.setEnabled(false);
+            roll_enabled = false;
         };
-        roll_value.setOnClickListener(RollButton);
+        roll_button.setOnClickListener(RollButton);
 
         View.OnClickListener SaveButton = v -> {
             if (!modifier_input.getText().toString().equals("")) {
@@ -684,6 +883,7 @@ public class MainActivity extends AppCompatActivity {
             Bundle b = new Bundle();
             b.putStringArrayList("Recent Rolls", recentRolls);
             b.putStringArrayList("Recent Roll Results", recentRollResults);
+            b.putStringArrayList("Recent Modifiers", recentModifiers);
             intent.putExtras(b);
             startActivity(intent);
             finish();
@@ -691,6 +891,7 @@ public class MainActivity extends AppCompatActivity {
 
         settings.setOnClickListener(settingsButton);
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -705,4 +906,40 @@ public class MainActivity extends AppCompatActivity {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("selected", selected);
+        outState.putBoolean("d4_enabled", d4_enabled);
+        outState.putBoolean("d6_enabled", d6_enabled);
+        outState.putBoolean("d8_enabled", d8_enabled);
+        outState.putBoolean("d10_enabled", d10_enabled);
+        outState.putBoolean("d12_enabled", d12_enabled);
+        outState.putBoolean("d20_enabled", d20_enabled);
+        outState.putBoolean("plus_enabled", plus_enabled);
+        outState.putBoolean("minus_enabled", minus_enabled);
+        outState.putBoolean("rollsbar_enabled", rollsbar_enabled);
+        outState.putString("rollsbar_text", rollsbar_text);
+        outState.putBoolean("add_enabled", add_enabled);
+        outState.putBoolean("usesaved_enabled", usesaved_enabled);
+        outState.putBoolean("clearlast_enabled", clearlast_enabled);
+        outState.putBoolean("clearall_enabled", clearall_enabled);
+        outState.putString("mainview_text", mainview_text);
+        outState.putBoolean("modifier_enabled", modifier_enabled);
+        outState.putBoolean("save_enabled", save_enabled);
+        outState.putBoolean("roll_enabled", roll_enabled);
+        outState.putBoolean("details_enabled", details_enabled);
+        outState.putIntegerArrayList("d4_rolls", d4_rolls);
+        outState.putIntegerArrayList("d6_rolls", d6_rolls);
+        outState.putIntegerArrayList("d8_rolls", d8_rolls);
+        outState.putIntegerArrayList("d10_rolls", d10_rolls);
+        outState.putIntegerArrayList("d12_rolls", d12_rolls);
+        outState.putIntegerArrayList("d20_rolls", d20_rolls);
+        outState.putStringArrayList("recentRolls", recentRolls);
+        outState.putStringArrayList("recentRollResults", recentRollResults);
+        outState.putStringArrayList("recentModifiers", recentModifiers);
+        outState.putStringArrayList("main_text", MainText);
+        super.onSaveInstanceState(outState);
+    }
 }
+
