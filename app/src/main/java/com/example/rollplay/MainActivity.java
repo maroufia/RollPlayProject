@@ -804,11 +804,14 @@ public class MainActivity extends AppCompatActivity {
             }
             if (recentModifiers.size() == 4)
                 recentModifiers.remove(0);
-            if (!modifier_input.getText().toString().equals("")) {
+            if (!modifier_input.getText().toString().equals("") && !modifier_input.getText().toString().equals("0") && !modifier_input.getText().toString().equals("-0")) {
                 result += Integer.parseInt(modifier_input.getText().toString());
-                recentModifiers.add(modifier_input.getText().toString());
+                if (Integer.parseInt(modifier_input.getText().toString()) > 0)
+                    recentModifiers.add("+" + modifier_input.getText().toString());
+                else
+                    recentModifiers.add(modifier_input.getText().toString());
             }
-            else if (modifier_input.getText().toString().equals("") || modifier_input.getText().toString().equals("0") || modifier_input.getText().toString().equals("-0"))
+            else
                 recentModifiers.add("0");
             if (recentRolls.size() == 4)
                 recentRolls.remove(0);
