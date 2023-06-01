@@ -102,6 +102,7 @@ public class Settings extends AppCompatActivity {
             Bundle b = new Bundle();
             b.putStringArrayList("Recent Rolls", recentRolls);
             b.putStringArrayList("Recent Roll Results", recentRollResults);
+            b.putStringArrayList("Recent Modifiers", recentModifiers);
             intent.putExtras(b);
             startActivity(intent);
             finish();
