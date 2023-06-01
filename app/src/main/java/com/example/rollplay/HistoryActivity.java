@@ -106,24 +106,24 @@ public class HistoryActivity extends AppCompatActivity {
                     }
                     if (recentModifiers.get(2).equals("0")){
                         history_text = recentRolls.get(2) + "\nResult: " + recentRollResults.get(2);
-                        history1.setText(history_text);
+                        history2.setText(history_text);
                     } else {
                         history_text = recentRolls.get(2) + recentModifiers.get(2) + "\nResult: " + recentRollResults.get(2);
-                        history1.setText(history_text);
+                        history2.setText(history_text);
                     }
                     if (recentModifiers.get(1).equals("0")){
                         history_text = recentRolls.get(1) + "\nResult: " + recentRollResults.get(1);
-                        history2.setText(history_text);
+                        history3.setText(history_text);
                     } else {
                         history_text = recentRolls.get(1) + recentModifiers.get(1) + "\nResult: " + recentRollResults.get(1);
-                        history2.setText(history_text);
+                        history3.setText(history_text);
                     }
                     if (recentModifiers.get(0).equals("0")){
                         history_text = recentRolls.get(0) + "\nResult: " + recentRollResults.get(0);
-                        history3.setText(history_text);
+                        history4.setText(history_text);
                     } else {
                         history_text = recentRolls.get(0) + recentModifiers.get(0) + "\nResult: " + recentRollResults.get(0);
-                        history3.setText(history_text);
+                        history4.setText(history_text);
                     }
                     break;
             }
