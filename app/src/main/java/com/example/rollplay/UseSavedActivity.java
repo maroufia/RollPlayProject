@@ -15,6 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Objects;
 
+/*
+Presents a RecyclerView with all the rolls saved in the Database
+The user can also search for a roll using a SearchView
+If the user selects a roll and presses the Confirm button its info gets passed to the MainActivity
+ */
 public class UseSavedActivity extends AppCompatActivity {
 
     @Override
@@ -35,6 +40,10 @@ public class UseSavedActivity extends AppCompatActivity {
         confirmBtn.setEnabled(false);
         Button backBtn = findViewById(R.id.backBtn2);
 
+        /*
+        If the device is on Portrait Mode, the RecyclerView is displayed vertically
+        Else if the device is on Landscape Mode, the RecyclerView is displayed like a horizontal grid
+         */
         LinearLayoutManager llm;
         GridLayoutManager glm;
         if (this.getResources().getConfiguration().orientation == ORIENTATION_PORTRAIT) {
@@ -50,6 +59,10 @@ public class UseSavedActivity extends AppCompatActivity {
         SavedAdapter adapter = new SavedAdapter(db, this);
         recyclerView.setAdapter(adapter);
 
+        /*
+        Listener for the SearchView
+        When the view gets updated, the RecyclerView gets updated as well based on the user's query
+        */
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -63,6 +76,10 @@ public class UseSavedActivity extends AppCompatActivity {
             }
         });
 
+        /*
+        Listener for the Confirm button
+        Bundles the necessary variables from the user's selection for the MainActivity and finishes the sub-activity
+         */
         confirmBtn.setOnClickListener( v -> {
             Intent intent = new Intent(UseSavedActivity.this, MainActivity.class);
             Bundle bundle = new Bundle();
@@ -75,6 +92,10 @@ public class UseSavedActivity extends AppCompatActivity {
             finish();
         });
 
+        /*
+        Listener for the Back button
+        Finishes the sub-activity
+         */
         backBtn.setOnClickListener( v -> {
             Intent intent = new Intent(UseSavedActivity.this, MainActivity.class);
             setResult(1, intent);

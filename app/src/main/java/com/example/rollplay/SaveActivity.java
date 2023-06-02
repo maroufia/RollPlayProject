@@ -13,8 +13,11 @@ import androidx.appcompat.app.AppCompatDelegate;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/*
+Sub-activity of MainActivity
+Gets roll information and the user can choose to save it on an SQLite Database for future use
+ */
 public class SaveActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Objects.requireNonNull(getSupportActionBar()).hide();
@@ -27,7 +30,7 @@ public class SaveActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_save);
 
-        Bundle bundle = getIntent().getExtras();
+        Bundle bundle = getIntent().getExtras(); //The bundle containing the roll information
         final ArrayList<String> Roll_Text = bundle.getStringArrayList("Roll"); // or other values
 
         EditText RollName = findViewById(R.id.inputName);
@@ -36,6 +39,9 @@ public class SaveActivity extends AppCompatActivity {
         Button saveBtn = findViewById(R.id.saveBtn);
         Button backBtn = findViewById(R.id.backBtn);
 
+        /*
+        Makes a readable String out of the roll info
+         */
         RollText.setText("Roll: ");
         for (int i=0; i < Roll_Text.size(); i++) {
             String symbol = Roll_Text.get(i);
@@ -60,6 +66,12 @@ public class SaveActivity extends AppCompatActivity {
             }
         }
 
+        /*
+        Listener for the Save button
+        Calls the saveRoll method
+        If the method returns 1 or 2 displays the appropriate error message
+        Else the sub-activity ends successfully
+         */
         View.OnClickListener saveBtnListener = v -> {
             int flag = saveRoll(RollName, Roll_Text);
             switch (flag) {
@@ -78,6 +90,10 @@ public class SaveActivity extends AppCompatActivity {
 
         saveBtn.setOnClickListener(saveBtnListener);
 
+        /*
+        Listener for the Back button
+        Ends the sub-activity
+         */
         View.OnClickListener backBtnListener = v -> {
             Intent intent = new Intent(SaveActivity.this, MainActivity.class);
             setResult(3, intent);
@@ -87,14 +103,18 @@ public class SaveActivity extends AppCompatActivity {
         backBtn.setOnClickListener(backBtnListener);
     }
 
+    /*
+    Saves the roll in the SQLite Database after the user inputs a name for it
+    If the input has either no characters or already exists in the Database, the method returns an error code (1 or 2)
+     */
     public int saveRoll(EditText RollName, ArrayList<String> Roll_Text) {
         DBHandler handler = new DBHandler(this, null, null, 1);
         String name = RollName.getText().toString().toLowerCase();
-        if (name.equals(""))
+        if (name.equals("")) //User input has no characters
             return 1;
         else {
             Roll found = handler.findRoll(name);
-            if (found != null)
+            if (found != null) //User input already exists in the Database
                 return 2;
             else {
                 int d4 = 0;
@@ -142,7 +162,7 @@ public class SaveActivity extends AppCompatActivity {
                     }
                 }
                 Roll new_roll = new Roll(name, d4, d6, d8, d10, d12, d20, mod);
-                handler.addRoll(new_roll);
+                handler.addRoll(new_roll); //The Roll is saved
                 return 0;
             }
         }

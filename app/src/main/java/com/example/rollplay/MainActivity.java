@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
         Objects.requireNonNull(getSupportActionBar()).hide();
 
+        //idfk
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
             setTheme(R.style.DarkMode);
         else
@@ -433,6 +434,11 @@ public class MainActivity extends AppCompatActivity {
         //--------------------------------------------------
         //--------------------------------------------------
 
+        /*
+        Listener for all the different dice types
+        Changes the selected dice and all the necessary dice images
+        If the user presses an already selected dice it gets unselected
+         */
         View.OnClickListener DiceButtons = v -> {
             int id = v.getId();
             if (id == R.id.d4_button) {
@@ -459,7 +465,7 @@ public class MainActivity extends AppCompatActivity {
                 new_selected = "d20";
                 d20.setImageResource(R.drawable.d20_selected);
             }
-            if (!selected.equals(new_selected)) {
+            if (!selected.equals(new_selected)) { //If the user changed his selection
                 switch(selected) {
                     case "d4":
                         d4.setImageResource(R.drawable.d4);
@@ -491,7 +497,7 @@ public class MainActivity extends AppCompatActivity {
                 add_button.setEnabled(true);
                 add_enabled = true;
             }
-            else {
+            else { //If the user unselected the previously selected dice
                 switch(new_selected) {
                     case "d4":
                         d4.setImageResource(R.drawable.d4);
@@ -529,6 +535,10 @@ public class MainActivity extends AppCompatActivity {
         d12.setOnClickListener(DiceButtons);
         d20.setOnClickListener(DiceButtons);
 
+        /*
+        Listener for the SeekBar that changes the number of die for the roll
+        With every change, the appropriate variables are updated
+         */
         rolls_bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -547,6 +557,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /*
+        Listener for the plus and minus buttons
+        Updates the necessary variables
+        After one of them is selected, the buttons get disabled and other views are enabled
+         */
         View.OnClickListener Plus_Minus_Buttons = v -> {
             int id = v.getId();
             if (id == R.id.plus_button) {
@@ -597,6 +612,11 @@ public class MainActivity extends AppCompatActivity {
         plus_button.setOnClickListener(Plus_Minus_Buttons);
         minus_button.setOnClickListener(Plus_Minus_Buttons);
 
+        /*
+        Listener for the Add button
+        Adds the SeekBar amount of selected dice to the current roll by updating all necessary variables
+        Die (selected dice gets permanently disabled) and SeekBar are disabled and other views are enabled
+         */
         View.OnClickListener add_button_listener = v -> {
             MainText.add(bar_display.getText().toString());
             MainText.add(selected);
@@ -660,9 +680,14 @@ public class MainActivity extends AppCompatActivity {
 
         add_button.setOnClickListener(add_button_listener);
 
+        /*
+        Listener for the 2 Clear buttons
+        If Clear Last is pressed the last addition to the current roll gets deleted (either dice or operator)
+        If Clear All is pressed everything gets deleted
+         */
         View.OnClickListener ClearSelectionsButtons = v -> {
             int id = v.getId();
-            if (id == R.id.clear_last_button) {
+            if (id == R.id.clear_last_button) { //Last addition gets deleted, views are updated accordingly
                 String LastInput = MainText.get(MainText.size()-1);
                 if ("+".equals(LastInput) || "-".equals(LastInput)) {
                     MainText.remove(MainText.size() - 1);
@@ -751,7 +776,7 @@ public class MainActivity extends AppCompatActivity {
                 mainview_text = "";
                 main_view.setText("");
                 String text;
-                if (MainText.size() > 0) {
+                if (MainText.size() > 0) { //If there's still roll data, the roll gets reconstructed without the deleted data
                     for (int i = 0; i < MainText.size(); i++) {
                         text = MainText.get(i);
                         if (text.equals("+") || text.equals("-"))
@@ -768,7 +793,7 @@ public class MainActivity extends AppCompatActivity {
                     clearall_enabled = false;
                 }
             }
-            else {
+            else { //The whole roll gets deleted (essentially a full reset)
                 MainText.clear();
                 mainview_text = "";
                 main_view.setText("");
@@ -825,6 +850,12 @@ public class MainActivity extends AppCompatActivity {
         clear_last.setOnClickListener(ClearSelectionsButtons);
         clear_all.setOnClickListener(ClearSelectionsButtons);
 
+        /*
+        Listener for the Roll button
+        Using the MainText arraylist, calculates and updates the main TextView with the roll's result
+        Updates the remaining arraylists with data used in the Details sub-activity and Settings activity
+        All appropriate views are updated
+         */
         View.OnClickListener RollButton = v -> {
             d4_rolls = new ArrayList<>();
             d6_rolls = new ArrayList<>();
@@ -840,11 +871,11 @@ public class MainActivity extends AppCompatActivity {
                 i++;
             }
             while (i+1 < MainText.size()) {
-                String character = MainText.get(i+1);
+                String character = MainText.get(i+1); //Character could be "d4", "d6", "d8", "d10", "d12", "d20"
                 int dice_sum = 0;
                 int random_value;
                 Random r = new Random();
-                switch (character) {
+                switch (character) { //For every character roll the corresponding dice the selected amount of time
                     case "d4":
                         for (int j = 0; j < Integer.parseInt(MainText.get(i)); j++) {
                             random_value = 1 + r.nextInt(4);
@@ -915,22 +946,25 @@ public class MainActivity extends AppCompatActivity {
                 recentModifiers.remove(0);
             if (!modifier_input.getText().toString().equals("") && !modifier_input.getText().toString().equals("0") && !modifier_input.getText().toString().equals("-0")) {
                 result += Integer.parseInt(modifier_input.getText().toString());
+
                 if (Integer.parseInt(modifier_input.getText().toString()) > 0)
                     recentModifiers.add(" + " + modifier_input.getText().toString());
-                else{
+
+                else {
                     recentModifiers.add(" - " + Integer.parseInt(modifier_input.getText().toString()) * (-1));
                 }
-
-
             }
             else
                 recentModifiers.add("0");
+
             if (recentRolls.size() == 4)
                 recentRolls.remove(0);
             recentRolls.add(main_view.getText().toString());
+
             if (recentRollResults.size() == 4)
                 recentRollResults.remove(0);
             recentRollResults.add(Integer.toString(result));
+
             String string = "Result:\n" + result;
             mainview_text = string;
             main_view.setText(string);
@@ -953,6 +987,11 @@ public class MainActivity extends AppCompatActivity {
         };
         roll_button.setOnClickListener(RollButton);
 
+        /*
+        Listener for the Save Roll button
+        Starts the SaveActivity sub-activity
+        Passes the MainText arraylist along with 2 more cells of information for the modifier
+         */
         View.OnClickListener SaveButton = v -> {
             if (!modifier_input.getText().toString().equals("")) {
                 MainText.add("mod");
@@ -967,6 +1006,10 @@ public class MainActivity extends AppCompatActivity {
 
         save_roll.setOnClickListener(SaveButton);
 
+        /*
+        Listener for the Use Saved Roll button
+        Starts the UseSavedActivity sub-activity
+         */
         View.OnClickListener useSavedButton = v -> {
             Intent intent = new Intent(MainActivity.this, UseSavedActivity.class);
             arl.launch(intent);
@@ -974,6 +1017,11 @@ public class MainActivity extends AppCompatActivity {
 
         use_saved.setOnClickListener(useSavedButton);
 
+        /*
+        Listener for the Details Button
+        Starts the DetailsActivity sub-activity
+        Passes the _rolls arraylists
+         */
         View.OnClickListener detailsButton = v -> {
             Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
             Bundle bundle  = new Bundle();
@@ -992,6 +1040,11 @@ public class MainActivity extends AppCompatActivity {
 
         details.setOnClickListener(detailsButton);
 
+        /*
+        Listener for the Settings button
+        Starts the SettingsActivity activity
+        Passes all variables necessary to restore the MainActivity to its current state after killing it
+         */
         View.OnClickListener settingsButton = v -> {
             Intent intent = new Intent(MainActivity.this, Settings.class);
             Bundle b = new Bundle();
@@ -1035,6 +1088,7 @@ public class MainActivity extends AppCompatActivity {
         settings.setOnClickListener(settingsButton);
     }
 
+    //idfk
     @Override
     protected void onResume() {
         super.onResume();
@@ -1042,6 +1096,7 @@ public class MainActivity extends AppCompatActivity {
         applyDarkMode(darkModeEnabled);
     }
 
+    //idfk
     void applyDarkMode(boolean darkModeEnabled) {
         if (darkModeEnabled) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
@@ -1050,6 +1105,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //Saves the activity's current state by bundling all necessary variables before recreating it
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putString("selected", selected);
