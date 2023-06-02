@@ -191,7 +191,7 @@ public class Settings extends AppCompatActivity {
             b.putStringArrayList("Recent Rolls", recentRolls);
             b.putStringArrayList("Recent Roll Results", recentRollResults);
             b.putStringArrayList("Recent Modifiers", recentModifiers);
-            intent.putExtras(b);
+            intent.putExtra("Extra", b);
             startActivity(intent);
             finish();
         }
@@ -233,7 +233,7 @@ public class Settings extends AppCompatActivity {
         b.putStringArrayList("Recent Rolls", recentRolls);
         b.putStringArrayList("Recent Roll Results", recentRollResults);
         b.putStringArrayList("Recent Modifiers", recentModifiers);
-        intent.putExtras(b);
+        intent.putExtra("Extra", b);
         startActivity(intent);
         finish();
     }

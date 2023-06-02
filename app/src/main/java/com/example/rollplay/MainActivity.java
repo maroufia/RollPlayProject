@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
         int rollbar_value = 0;
         String modifier_value = "";
 
-        Bundle settings_bundle = getIntent().getExtras();
+        Bundle settings_bundle = getIntent().getBundleExtra("Extra");
         if (settings_bundle != null) {
             selected = settings_bundle.getString("selected");
             d4_enabled = settings_bundle.getBoolean("d4_enabled");
@@ -186,6 +186,7 @@ public class MainActivity extends AppCompatActivity {
             recentRolls.addAll(settings_bundle.getStringArrayList("Recent Rolls"));
             recentRollResults.addAll(settings_bundle.getStringArrayList("Recent Roll Results"));
             recentModifiers.addAll(settings_bundle.getStringArrayList("Recent Modifiers"));
+            getIntent().removeExtra("Extra");
         }
 
         ImageButton d4 = findViewById(R.id.d4_button);
