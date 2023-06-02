@@ -23,41 +23,43 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.Random;
 
+/*
+The app's main screen. It includes the main "roll", "save roll", "use saved roll", "roll details" and "settings" buttons.
+ */
 public class MainActivity extends AppCompatActivity {
 
-    private String selected;
-    private String new_selected;
-
-    private ArrayList<String> MainText;
-    private boolean d4_enabled;
-    private boolean d6_enabled;
-    private boolean d8_enabled;
-    private boolean d10_enabled;
-    private boolean d12_enabled;
-    private boolean d20_enabled;
-    private boolean plus_enabled;
-    private boolean minus_enabled;
-    private boolean rollsbar_enabled;
-    private String rollsbar_text;
-    private boolean add_enabled;
-    private boolean usesaved_enabled;
-    private boolean clearlast_enabled;
-    private boolean clearall_enabled;
-    private String mainview_text;
-    private boolean modifier_enabled;
-    private boolean save_enabled;
-    private boolean roll_enabled;
-    private boolean details_enabled;
-    private ArrayList<Integer> d4_rolls;
-    private ArrayList<Integer> d6_rolls;
-    private ArrayList<Integer> d8_rolls;
-    private ArrayList<Integer> d10_rolls;
-    private ArrayList<Integer> d12_rolls;
-    private ArrayList<Integer> d20_rolls;
-    private ArrayList<String> recentRolls;
-    private ArrayList<String> recentRollResults;
-    private ArrayList<String> recentModifiers;
-    SharedPreferences sharedPreferences;
+    private String selected; //The currently selected dice
+    private String new_selected; //The newly selected dice
+    private ArrayList<String> MainText; //ArrayList that includes the roll's required info for the result calculation (Something like ["+"(sign),"5"(number of dice),"d6"(dice type),"-","14","d10"...])
+    private boolean d4_enabled; //True if the d4 dice is enabled
+    private boolean d6_enabled; //True if the d6 dice is enabled
+    private boolean d8_enabled; //True if the d8 dice is enabled
+    private boolean d10_enabled; //True if the d10 dice is enabled
+    private boolean d12_enabled; //True if the d12 dice is enabled
+    private boolean d20_enabled; //True if the d20 dice is enabled
+    private boolean plus_enabled; //True if the plus button is enabled
+    private boolean minus_enabled; //True if the minus button is enabled
+    private boolean rollsbar_enabled; //True if the switch bar that controls the number of rolls is enabled
+    private String rollsbar_text; //Holds the value of the switch bar
+    private boolean add_enabled; //True if the add button is enabled
+    private boolean usesaved_enabled; //True if the Use Saved Roll button is enabled
+    private boolean clearlast_enabled; //True if the Clear Last button is enabled
+    private boolean clearall_enabled; //True if the Clear All button is enabled
+    private String mainview_text; //Holds the text of the main TextView (where the roll and result are displayed)
+    private boolean modifier_enabled; //True if the modifier EditText is enabled
+    private boolean save_enabled; //True if the Save Roll button is enabled
+    private boolean roll_enabled; //True if the Roll button is enabled
+    private boolean details_enabled; //True if the Details button is enabled
+    private ArrayList<Integer> d4_rolls; //Holds the values of all the d4 die that were thrown in the previous roll
+    private ArrayList<Integer> d6_rolls; //Holds the values of all the d6 die that were thrown in the previous roll
+    private ArrayList<Integer> d8_rolls; //Holds the values of all the d8 die that were thrown in the previous roll
+    private ArrayList<Integer> d10_rolls; //Holds the values of all the d10 die that were thrown in the previous roll
+    private ArrayList<Integer> d12_rolls; //Holds the values of all the d12 die that were thrown in the previous roll
+    private ArrayList<Integer> d20_rolls; //Holds the values of all the d20 die that were thrown in the previous roll
+    private ArrayList<String> recentRolls; //Holds the 4 most recent thrown rolls (number of die for each type)
+    private ArrayList<String> recentRollResults; //Holds the 4 most recent thrown rolls' results
+    private ArrayList<String> recentModifiers; //Holds the 4 most recent thrown rolls' modifiers
+    SharedPreferences sharedPreferences; //idfk
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +77,14 @@ public class MainActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
 
-        if (savedInstanceState != null) {
+        //--------------------------------------------------
+        //--------------------------------------------------
+        //Initializes the activity's variables
+        //If the activity happens to be recreated the values are retrieved from the savedInstanceState bundle
+        //--------------------------------------------------
+        //--------------------------------------------------
+
+        if (savedInstanceState != null) { //The activity was recreated
             selected = savedInstanceState.getString("selected");
             new_selected = "none";
             d4_enabled = savedInstanceState.getBoolean("d4_enabled");
@@ -108,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
             recentModifiers = new ArrayList<>(savedInstanceState.getStringArrayList("recentModifiers"));
             MainText = new ArrayList<>(savedInstanceState.getStringArrayList("main_text"));
         }
-        else {
+        else { //The activity is created for the first time
             selected = "none";
             new_selected = "none";
             d4_enabled = true;
@@ -143,13 +152,15 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //--------------------------------------------------
-        //After coming back from Settings
+        //--------------------------------------------------
+        //After coming back from the Settings Activity (Main Activity gets restarted):
+        //--------------------------------------------------
         //--------------------------------------------------
 
-        int rollbar_value = 0;
-        String modifier_value = "";
+        int rollbar_value = 0; //SeekBar's progress
+        String modifier_value = ""; //EditText modifier's value
 
-        Bundle settings_bundle = getIntent().getBundleExtra("Extra");
+        Bundle settings_bundle = getIntent().getBundleExtra("Extra"); //Intent from Settings
         if (settings_bundle != null) {
             selected = settings_bundle.getString("selected");
             d4_enabled = settings_bundle.getBoolean("d4_enabled");
@@ -186,34 +197,46 @@ public class MainActivity extends AppCompatActivity {
             recentRolls.addAll(settings_bundle.getStringArrayList("Recent Rolls"));
             recentRollResults.addAll(settings_bundle.getStringArrayList("Recent Roll Results"));
             recentModifiers.addAll(settings_bundle.getStringArrayList("Recent Modifiers"));
-            getIntent().removeExtra("Extra");
+            getIntent().removeExtra("Extra"); //Removes the settings_bundle after being used as to prevent multiple uses due to screen rotations etc.
         }
 
+        //d4 dice initialization
         ImageButton d4 = findViewById(R.id.d4_button);
         d4.setEnabled(d4_enabled);
         if (!d4_enabled)
             d4.setImageResource(R.drawable.d4_disabled);
+
+        //d6 dice initialization
         ImageButton d6 = findViewById(R.id.d6_button);
         d6.setEnabled(d6_enabled);
         if (!d6_enabled)
             d6.setImageResource(R.drawable.d6_disabled);
+
+        //d8 dice initialization
         ImageButton d8 = findViewById(R.id.d8_button);
         d8.setEnabled(d8_enabled);
         if (!d8_enabled)
             d8.setImageResource(R.drawable.d8_disabled);
+
+        //d10 dice initialization
         ImageButton d10 = findViewById(R.id.d10_button);
         d10.setEnabled(d10_enabled);
         if (!d10_enabled)
             d10.setImageResource(R.drawable.d10_disabled);
+
+        //d12 dice initialization
         ImageButton d12 = findViewById(R.id.d12_button);
         d12.setEnabled(d12_enabled);
         if (!d12_enabled)
             d12.setImageResource(R.drawable.d12_disabled);
+
+        //d20 dice initialization
         ImageButton d20 = findViewById(R.id.d20_button);
         d20.setEnabled(d20_enabled);
         if (!d20_enabled)
             d20.setImageResource(R.drawable.d20_disabled);
 
+        //Checks if all die should be disabled
         if (plus_enabled || details_enabled) {
             d4.setEnabled(false);
             d4.setImageResource(R.drawable.d4_disabled);
@@ -229,6 +252,7 @@ public class MainActivity extends AppCompatActivity {
             d20.setImageResource(R.drawable.d20_disabled);
         }
 
+        //Checks if a dice is selected
         switch (selected) {
             case "d4":
                 d4.setImageResource(R.drawable.d4_selected);
@@ -252,15 +276,19 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
 
+        //Plus button initialization
         ImageButton plus_button = findViewById(R.id.plus_button);
         plus_button.setEnabled(plus_enabled);
         if (!plus_enabled)
             plus_button.setImageResource(R.drawable.plus_disabled);
+
+        //Minus button initialization
         ImageButton minus_button = findViewById(R.id.minus_button);
         minus_button.setEnabled(minus_enabled);
         if (!minus_enabled)
             minus_button.setImageResource(R.drawable.minus_disabled);
 
+        //Seekbar initialization
         SeekBar rolls_bar = findViewById(R.id.rolls_bar);
         rolls_bar.setEnabled(rollsbar_enabled);
         rolls_bar.setProgress(rollbar_value);
@@ -269,32 +297,52 @@ public class MainActivity extends AppCompatActivity {
         Button add_button = findViewById(R.id.add_roll_button);
         add_button.setEnabled(add_enabled);
 
+        //Use Saved button initialization
         Button use_saved = findViewById(R.id.use_saved_button);
         use_saved.setEnabled(usesaved_enabled);
+
+        //Clear Last button initialization
         Button clear_last = findViewById(R.id.clear_last_button);
         clear_last.setEnabled(clearlast_enabled);
+
+        //Clear All button initialization
         Button clear_all = findViewById(R.id.clear_all_button);
         clear_all.setEnabled(clearall_enabled);
 
+        //Main TextView initialization
         TextView main_view = findViewById(R.id.main_view);
         main_view.setText(mainview_text);
 
+        //Modifier EditText initialization
         EditText modifier_input = findViewById(R.id.modifier_input);
         modifier_input.setText(modifier_value);
         modifier_input.setEnabled(modifier_enabled);
 
+        //Save Roll button initialization
         Button save_roll = findViewById(R.id.save_roll_button);
         save_roll.setEnabled(save_enabled);
+
+        //Roll button initialization
         Button roll_button = findViewById(R.id.roll_button);
         roll_button.setEnabled(roll_enabled);
+
+        //Details button initialization
         Button details = findViewById(R.id.details_button);
         details.setEnabled(details_enabled);
+
+        //Settings button initialization
         ImageButton settings = findViewById(R.id.settings_button);
         settings.setEnabled(true);
 
+        //Called for launching sub-activities and getting back their result ("Save Roll", "Use Saved Roll", "Details")
         ActivityResultLauncher<Intent> arl = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
                 result -> {
+
+                    /*
+                    "Use Saved Roll" sub-activity ends
+                    All necessary variables get updated in order to reflect the selected roll
+                     */
                     if (result.getResultCode() == 2) {
 
                         Intent data = result.getData();
@@ -366,6 +414,11 @@ public class MainActivity extends AppCompatActivity {
 
                         }
                     }
+
+                    /*
+                    "Save Roll" sub-activity ends
+                    Deletes the 2 last values of the MainText array (modifier info) as it is no longer of use
+                     */
                     else if (result.getResultCode() == 3) {
                         if (MainText.contains("mod")) {
                             MainText.remove(MainText.size() - 1);
@@ -375,7 +428,9 @@ public class MainActivity extends AppCompatActivity {
                 });
 
         //--------------------------------------------------
+        //--------------------------------------------------
         //Listeners:
+        //--------------------------------------------------
         //--------------------------------------------------
 
         View.OnClickListener DiceButtons = v -> {
