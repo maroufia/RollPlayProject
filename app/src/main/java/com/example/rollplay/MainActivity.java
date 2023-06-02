@@ -146,6 +146,9 @@ public class MainActivity extends AppCompatActivity {
         //After coming back from Settings
         //--------------------------------------------------
 
+        int rollbar_value = 0;
+        String modifier_value = "";
+
         Bundle settings_bundle = getIntent().getExtras();
         if (settings_bundle != null) {
             selected = settings_bundle.getString("selected");
@@ -168,6 +171,8 @@ public class MainActivity extends AppCompatActivity {
             save_enabled = settings_bundle.getBoolean("save_enabled");
             roll_enabled = settings_bundle.getBoolean("roll_enabled");
             details_enabled = settings_bundle.getBoolean("details_enabled");
+            rollbar_value = settings_bundle.getInt("rollsbar_value");
+            modifier_value = settings_bundle.getString("modifier_value");
             d4_rolls = new ArrayList<>(settings_bundle.getIntegerArrayList("d4_rolls"));
             d6_rolls = new ArrayList<>(settings_bundle.getIntegerArrayList("d6_rolls"));
             d8_rolls = new ArrayList<>(settings_bundle.getIntegerArrayList("d8_rolls"));
@@ -257,6 +262,7 @@ public class MainActivity extends AppCompatActivity {
 
         SeekBar rolls_bar = findViewById(R.id.rolls_bar);
         rolls_bar.setEnabled(rollsbar_enabled);
+        rolls_bar.setProgress(rollbar_value);
         TextView bar_display = findViewById(R.id.bar_display);
         bar_display.setText(rollsbar_text);
         Button add_button = findViewById(R.id.add_roll_button);
@@ -273,6 +279,7 @@ public class MainActivity extends AppCompatActivity {
         main_view.setText(mainview_text);
 
         EditText modifier_input = findViewById(R.id.modifier_input);
+        modifier_input.setText(modifier_value);
         modifier_input.setEnabled(modifier_enabled);
 
         Button save_roll = findViewById(R.id.save_roll_button);
@@ -696,6 +703,7 @@ public class MainActivity extends AppCompatActivity {
                         else
                             main_view.append(text);
                     }
+                    mainview_text = main_view.getText().toString();
                 }
                 else {
                     clear_last.setEnabled(false);
@@ -751,6 +759,7 @@ public class MainActivity extends AppCompatActivity {
             usesaved_enabled = true;
             rolls_bar.setEnabled(false);
             rollsbar_enabled = false;
+            rolls_bar.setProgress(0);
             bar_display.setText("0");
             rollsbar_text = "0";
             add_button.setEnabled(false);
@@ -957,6 +966,8 @@ public class MainActivity extends AppCompatActivity {
             b.putIntegerArrayList("d12_rolls", d12_rolls);
             b.putIntegerArrayList("d20_rolls", d20_rolls);
             b.putStringArrayList("main_text", MainText);
+            b.putInt("rollsbar_value", rolls_bar.getProgress());
+            b.putString("modifier_value", modifier_input.getText().toString());
             b.putStringArrayList("Recent Rolls", recentRolls);
             b.putStringArrayList("Recent Roll Results", recentRollResults);
             b.putStringArrayList("Recent Modifiers", recentModifiers);

@@ -47,6 +47,8 @@ public class Settings extends AppCompatActivity {
     private boolean save_enabled;
     private boolean roll_enabled;
     private boolean details_enabled;
+    private int rollsbar_value;
+    private String modifier_value;
     private ArrayList<Integer> d4_rolls;
     private ArrayList<Integer> d6_rolls;
     private ArrayList<Integer> d8_rolls;
@@ -80,6 +82,8 @@ public class Settings extends AppCompatActivity {
         save_enabled = bundle.getBoolean("save_enabled");
         roll_enabled = bundle.getBoolean("roll_enabled");
         details_enabled = bundle.getBoolean("details_enabled");
+        rollsbar_value = bundle.getInt("rollsbar_value");
+        modifier_value = bundle.getString("modifier_value");
         d4_rolls = new ArrayList<>(bundle.getIntegerArrayList("d4_rolls"));
         d6_rolls = new ArrayList<>(bundle.getIntegerArrayList("d6_rolls"));
         d8_rolls = new ArrayList<>(bundle.getIntegerArrayList("d8_rolls"));
@@ -175,6 +179,8 @@ public class Settings extends AppCompatActivity {
             b.putBoolean("save_enabled", save_enabled);
             b.putBoolean("roll_enabled", roll_enabled);
             b.putBoolean("details_enabled", details_enabled);
+            b.putInt("rollsbar_value", rollsbar_value);
+            b.putString("modifier_value", modifier_value);
             b.putIntegerArrayList("d4_rolls", d4_rolls);
             b.putIntegerArrayList("d6_rolls", d6_rolls);
             b.putIntegerArrayList("d8_rolls", d8_rolls);
@@ -215,6 +221,8 @@ public class Settings extends AppCompatActivity {
         b.putBoolean("save_enabled", save_enabled);
         b.putBoolean("roll_enabled", roll_enabled);
         b.putBoolean("details_enabled", details_enabled);
+        b.putInt("rollsbar_value", rollsbar_value);
+        b.putString("modifier_value", modifier_value);
         b.putIntegerArrayList("d4_rolls", d4_rolls);
         b.putIntegerArrayList("d6_rolls", d6_rolls);
         b.putIntegerArrayList("d8_rolls", d8_rolls);

@@ -97,7 +97,13 @@ public class SaveActivity extends AppCompatActivity {
             if (found != null)
                 return 2;
             else {
-                int d4 = 0; int d6 = 0; int d8 = 0; int d10 = 0; int d12 = 0; int d20 = 0; int mod = 0;
+                int d4 = 0;
+                int d6 = 0;
+                int d8 = 0;
+                int d10 = 0;
+                int d12 = 0;
+                int d20 = 0;
+                int mod = 0;
                 int num_of_dice = Integer.parseInt(Roll_Text.get(0));
                 for (int i = 1; i < Roll_Text.size(); i++) {
                     String symbol = Roll_Text.get(i);
@@ -121,10 +127,10 @@ public class SaveActivity extends AppCompatActivity {
                             d20 = num_of_dice;
                             break;
                         case "mod":
-                            if (Roll_Text.get(i-1).equals("-"))
-                                mod = (-1) * Integer.parseInt(Roll_Text.get(i+1));
+                            if (Roll_Text.get(i - 1).equals("-"))
+                                mod = (-1) * Integer.parseInt(Roll_Text.get(i + 1));
                             else
-                                mod = Integer.parseInt(Roll_Text.get(i+1));
+                                mod = Integer.parseInt(Roll_Text.get(i + 1));
                             i++;
                             break;
                         case "+":
