@@ -317,8 +317,10 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                     else if (result.getResultCode() == 3) {
-                        MainText.remove(MainText.size() - 1);
-                        MainText.remove(MainText.size() - 1);
+                        if (MainText.contains("mod")) {
+                            MainText.remove(MainText.size() - 1);
+                            MainText.remove(MainText.size() - 1);
+                        }
                     }
                 });
 
