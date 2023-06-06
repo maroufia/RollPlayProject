@@ -14,31 +14,38 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+/*
+Class that determines the RecyclerAdapter's behaviour for the UseSavedActivity and DeleteSavedActivity
+ */
 public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder> {
 
-    private Button confirmBtn;
-    private final Context context;
-    private String[] names;
-    private int[][] selectedDice;
-    private int[] rightSelectedDice;
-    private ArrayList<String[]> MainText;
-    private String[] SelectedMainText;
-    private String[] modifier;
-    private String SelectedModifier;
-    private String[] display;
-    private String SelectedDisplay;
+    private Button confirmBtn; //Confirm Button of UseSavedActivity (if the class is used for DeleteSavedActivity, this variable is null)
+    private final Context context; //Instance of UseSavedActivity or DeleteSavedActivity
+    private String[] names; //Names of all saved rolls
+    private int[][] selectedDice; //Array that holds what die each roll uses
+    private int[] rightSelectedDice; //The die that correspond to the user selected saved roll
+    private ArrayList<String[]> MainText; //Each roll's info
+    private String[] SelectedMainText; //The user selected roll's info
+    private String[] modifier; //Each roll's modifier
+    private String SelectedModifier; //The user selected roll's modifier
+    private String[] display; //Each roll's displayed text
+    private String SelectedDisplay; //The user selected roll's displayed text
 
+    /*
+    Parameter DBHandler db: Instance of the class that handles the SQLite Database
+    Parameter Context context: Instance of UseSavedActivity or DeleteSavedActivity
+     */
     public SavedAdapter(DBHandler db, Context context) {
         this.context = context;
-        if (context instanceof UseSavedActivity)
+        if (context instanceof UseSavedActivity) //Confirm button gets initialized if context is an instance of UseSavedActivity
             this.confirmBtn = (Button) ((Activity) context).findViewById(R.id.confirmBtn);
-        Roll[] rolls = db.getAllRolls();
+        Roll[] rolls = db.getAllRolls(); //Gets all rolls saved in the database
         names = new String[rolls.length];
         selectedDice = new int[rolls.length][6];
         display = new String[rolls.length];
         MainText = new ArrayList<>();
         modifier = new String[rolls.length];
-        initData(rolls);
+        initData(rolls); //Initializes all variables for each roll
         db.close();
     }
 
@@ -50,10 +57,24 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder> 
         return new ViewHolder(v);
     }
 
+    /*
+    Called to display the data of every saved roll on the Adapter
+    Each roll is displayed on a Button (Name and roll info)
+     */
     @Override
     public void onBindViewHolder(@NonNull SavedAdapter.ViewHolder holder, int position) {
+
         String text = "Name: " + names[position].substring(0,1).toUpperCase() + names[position].substring(1) + "\nRoll: " + display[position];
         holder.UseBtn.setText(text);
+
+        /*
+        Called when the user presses one of the rolls' Buttons
+        If the Adapter was created as part of the UseSavedActivity (confirmBtn not null) then it enables the Confirm Button and the user can press it
+        to confirm his selection
+        Otherwise (Adapter created as part of the DeleteSavedActivity), when the user selects a roll the DeleteActivity will start and
+        the DeleteSavedActivity will be finished
+        In both cases the necessary roll info is acquired with the user's selection
+         */
         holder.UseBtn.setOnClickListener (v -> {
             if (confirmBtn != null) {
                 SelectedMainText = MainText.get(holder.getAbsoluteAdapterPosition());
@@ -81,6 +102,9 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder> 
         return names.length;
     }
 
+    /*
+    For each roll, all necessary variables get initialized (names, MainText, selectedDice, display, modifier)
+     */
     private void initData(Roll[] rolls) {
         ArrayList<String> text = new ArrayList<>();
         for (int i=0; i < rolls.length; i++) {
@@ -214,6 +238,7 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder> 
         }
 
     }
+
     static class ViewHolder extends RecyclerView.ViewHolder {
         private final Button UseBtn;
         public ViewHolder(@NonNull View itemView) {
@@ -222,15 +247,18 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder> 
         }
     }
 
+    /*
+    Updates the RecyclerAdapter if the user entered a new search query
+     */
     public void update(DBHandler db, String name) {
         Roll[] rolls;
-        if (name.equals(""))
+        if (name.equals("")) //Query is void (all rolls are displayed)
             rolls = db.getAllRolls();
         else {
             rolls = new Roll[1];
             rolls[0] = db.findRoll(name);
         }
-        if (rolls[0] != null) {
+        if (rolls[0] != null) { //Query isn't void (the roll matching the query is displayed)
             names = new String[rolls.length];
             selectedDice = new int[rolls.length][6];
             display = new String[rolls.length];

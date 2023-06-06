@@ -6,20 +6,23 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+/*
+Class that handles the SQLite Database
+ */
 public class DBHandler extends SQLiteOpenHelper {
 
-    public static final int DB_VERSION = 1;
-    public static final String DB_NAME = "rollsDB.db";
-    public static final String TABLE_SAVED = "saved_rolls";
-    public static final String COLUMN_ID = "_id";
-    public static final String COLUMN_NAME = "name";
-    public static final String COLUMN_D4 = "d4";
-    public static final String COLUMN_D6 = "d6";
-    public static final String COLUMN_D8 = "d8";
-    public static final String COLUMN_D10 = "d10";
-    public static final String COLUMN_D12 = "d12";
-    public static final String COLUMN_D20 = "d20";
-    public static final String COLUMN_MOD = "modifier";
+    public static final int DB_VERSION = 1; //Database version
+    public static final String DB_NAME = "rollsDB.db"; //Database name
+    public static final String TABLE_SAVED = "saved_rolls"; //Database Table
+    public static final String COLUMN_ID = "_id"; //Table's id column
+    public static final String COLUMN_NAME = "name"; //Table's name column
+    public static final String COLUMN_D4 = "d4"; //Table's d4 column
+    public static final String COLUMN_D6 = "d6"; //Table's d6 column
+    public static final String COLUMN_D8 = "d8"; //Table's d8 column
+    public static final String COLUMN_D10 = "d10"; //Table's d10 column
+    public static final String COLUMN_D12 = "d12"; //Table's d12 column
+    public static final String COLUMN_D20 = "d20"; //Table's d20 column
+    public static final String COLUMN_MOD = "modifier"; //Table's modifier column
 
     public DBHandler(Context context,String name,SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DB_NAME, factory, DB_VERSION);
@@ -27,7 +30,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_SAVED_TABLE = "CREATE TABLE " + TABLE_SAVED + "(" + COLUMN_ID + " INTEGER PRIMARY KEY," +
+        String CREATE_SAVED_TABLE = "CREATE TABLE " + TABLE_SAVED + "(" + COLUMN_ID + " INTEGER PRIMARY KEY," + //Table gets initialized
                 COLUMN_NAME + " TEXT," +
                 COLUMN_D4 + " INTEGER," +
                 COLUMN_D6 + " INTEGER," +
@@ -39,12 +42,18 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL(CREATE_SAVED_TABLE);
     }
 
+    /*
+    If a database upgrade happens, the table gets deleted and recreated
+     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SAVED);
         onCreate(db);
     }
 
+    /*
+    Adds a row to the table
+     */
     public void addRoll (Roll R) {
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME, R.getName());
@@ -60,6 +69,9 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    /*
+    Deletes a row from the table based on a roll's name
+     */
     public void removeRoll (String name) {
         Roll R = findRoll(name);
         if (R != null) {
@@ -70,6 +82,10 @@ public class DBHandler extends SQLiteOpenHelper {
 
     }
 
+    /*
+    Finds a roll by its name
+    If the roll doesn't exist returns null
+     */
     public Roll findRoll(String roll_name) {
         roll_name = roll_name.toLowerCase();
         String query = "SELECT * FROM " + TABLE_SAVED + " WHERE " +
@@ -89,13 +105,17 @@ public class DBHandler extends SQLiteOpenHelper {
             R.setD20(Integer.parseInt(cursor.getString(7)));
             R.setModifier(Integer.parseInt(cursor.getString(8)));
             cursor.close();
-        } else {
-            R = null;
         }
+        else
+            R = null;
+
         db.close();
         return R;
     }
 
+    /*
+    Returns all the rolls saved in the database
+     */
     public Roll[] getAllRolls() {
         String query = "SELECT * FROM " + TABLE_SAVED;
         SQLiteDatabase db = this.getWritableDatabase();

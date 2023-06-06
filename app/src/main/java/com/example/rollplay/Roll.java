@@ -1,16 +1,19 @@
 package com.example.rollplay;
 
+/*
+Class that describes a roll
+ */
 public class Roll {
 
-    private int _id;
-    private String name;
-    private int d4;
-    private int d6;
-    private int d8;
-    private int d10;
-    private int d12;
-    private int d20;
-    private int modifier;
+    private int _id; //Roll's id
+    private String name; //Roll's name
+    private int d4; //Roll's d4 value
+    private int d6; //Roll's d6 value
+    private int d8; //Roll's d8 value
+    private int d10; //Roll's d10 value
+    private int d12; //Roll's d12 value
+    private int d20; //Roll's d20 value
+    private int modifier; //Roll's id
 
     public Roll() {
 

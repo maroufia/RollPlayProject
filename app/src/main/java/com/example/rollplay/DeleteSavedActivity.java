@@ -16,6 +16,12 @@ import android.widget.SearchView;
 
 import java.util.Objects;
 
+/*
+Sub-activity of Settings
+Presents a RecyclerView with all the rolls saved in the Database
+The user can also search for a roll using a SearchView
+If the user selects a roll its info gets passed to the DeleteActivity
+ */
 public class DeleteSavedActivity extends AppCompatActivity {
 
     @Override
@@ -34,6 +40,10 @@ public class DeleteSavedActivity extends AppCompatActivity {
         SearchView search = findViewById(R.id.searchView2);
         Button backBtn = findViewById(R.id.backBtn3);
 
+        /*
+        If the device is on Portrait Mode, the RecyclerView is displayed vertically
+        Else if the device is on Landscape Mode, the RecyclerView is displayed like a horizontal grid
+         */
         LinearLayoutManager llm;
         GridLayoutManager glm;
         if (this.getResources().getConfiguration().orientation == ORIENTATION_PORTRAIT) {
@@ -49,6 +59,10 @@ public class DeleteSavedActivity extends AppCompatActivity {
         SavedAdapter adapter = new SavedAdapter(db, this);
         recyclerView.setAdapter(adapter);
 
+        /*
+        Listener for the SearchView
+        When the view gets updated, the RecyclerView gets updated as well based on the user's query
+        */
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -62,6 +76,10 @@ public class DeleteSavedActivity extends AppCompatActivity {
             }
         });
 
+        /*
+        Listener for the Back button
+        Finishes the sub-activity
+         */
         View.OnClickListener bckBtnListener = v -> {
             Intent intent = new Intent(DeleteSavedActivity.this, Settings.class);
             setResult(1, intent);

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.Objects;
 
 /*
+Sub-activity of MainActivity
 Presents a RecyclerView with all the rolls saved in the Database
 The user can also search for a roll using a SearchView
 If the user selects a roll and presses the Confirm button its info gets passed to the MainActivity

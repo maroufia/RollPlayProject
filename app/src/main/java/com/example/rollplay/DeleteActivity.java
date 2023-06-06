@@ -11,6 +11,11 @@ import android.widget.TextView;
 
 import java.util.Objects;
 
+/*
+Started from SavedAdapter as soon as the user selects a roll
+The name and roll details are displayed and the user can either press the Delete Button to delete the roll from the database
+or the Back Button to return to the DeleteSavedActivity
+ */
 public class DeleteActivity extends AppCompatActivity {
 
     @Override
@@ -30,6 +35,9 @@ public class DeleteActivity extends AppCompatActivity {
         Button delete = findViewById(R.id.deleteBtn);
         Button back = findViewById(R.id.backBtn4);
 
+        /*
+        Roll info is set with the Bundle sent by the SavedAdapter
+         */
         Bundle bundle = getIntent().getExtras();
         String name = bundle.getString("Name");
         String textString = "Name: " + name.substring(0,1).toUpperCase() + name.substring(1);
@@ -37,6 +45,11 @@ public class DeleteActivity extends AppCompatActivity {
         String textRoll = "Roll: " + bundle.getString("Roll");
         roll.setText(textRoll);
 
+        /*
+        Buttons' listener
+        If the Delete Button is pressed the roll gets deleted from the database
+        This Activity ends and the DeleteSavedActivity starts again
+         */
         View.OnClickListener buttons_listener = v -> {
             if (v.getId() == R.id.deleteBtn) {
                 DBHandler dbh = new DBHandler(this, null, null, 1);
