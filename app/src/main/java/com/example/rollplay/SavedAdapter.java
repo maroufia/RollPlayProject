@@ -95,7 +95,7 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder> 
                     text.add(Integer.toString(d4));
                 }
                 else {
-                    string += (" - " + d4 + "d4");
+                    string += (" - " + (-1) * d4 + "d4");
                     text.add("-");
                     text.add(Integer.toString((-1) * d4));
                 }
@@ -131,7 +131,7 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ViewHolder> 
                     text.add(Integer.toString(d8));
                 }
                 else {
-                    string += (" - " + d8 + "d8");
+                    string += (" - " + (-1) * d8 + "d8");
                     text.add("-");
                     text.add(Integer.toString((-1) * d8));
                 }

@@ -2,6 +2,7 @@ package com.example.rollplay;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -124,27 +125,54 @@ public class SaveActivity extends AppCompatActivity {
                 int d12 = 0;
                 int d20 = 0;
                 int mod = 0;
-                int num_of_dice = Integer.parseInt(Roll_Text.get(0));
-                for (int i = 1; i < Roll_Text.size(); i++) {
+                int num_of_dice;
+                int loop_start = 1;
+                String operator = "+";
+                if (Roll_Text.get(0).equals("-")) {
+                    operator = "-";
+                    num_of_dice = Integer.parseInt(Roll_Text.get(1));
+                    loop_start = 2;
+                }
+                else
+                    num_of_dice = Integer.parseInt(Roll_Text.get(0));
+                for (int i = loop_start; i < Roll_Text.size(); i++) {
                     String symbol = Roll_Text.get(i);
                     switch (symbol) {
                         case "d4":
-                            d4 = num_of_dice;
+                            if (operator.equals("+"))
+                                d4 = num_of_dice;
+                            else
+                                d4 = (-1) * num_of_dice;
                             break;
                         case "d6":
-                            d6 = num_of_dice;
+                            if (operator.equals("+"))
+                                d6 = num_of_dice;
+                            else
+                                d6 = (-1) * num_of_dice;
                             break;
                         case "d8":
-                            d8 = num_of_dice;
+                            if (operator.equals("+"))
+                                d8 = num_of_dice;
+                            else
+                                d8 = (-1) * num_of_dice;
                             break;
                         case "d10":
-                            d10 = num_of_dice;
+                            if (operator.equals("+"))
+                                d10 = num_of_dice;
+                            else
+                                d10 = (-1) * num_of_dice;
                             break;
                         case "d12":
-                            d12 = num_of_dice;
+                            if (operator.equals("+"))
+                                d12 = num_of_dice;
+                            else
+                                d12 = (-1) * num_of_dice;
                             break;
                         case "d20":
-                            d20 = num_of_dice;
+                            if (operator.equals("+"))
+                                d20 = num_of_dice;
+                            else
+                                d20 = (-1) * num_of_dice;
                             break;
                         case "mod":
                             if (Roll_Text.get(i - 1).equals("-"))
@@ -154,7 +182,10 @@ public class SaveActivity extends AppCompatActivity {
                             i++;
                             break;
                         case "+":
+                            operator = "+";
+                            break;
                         case "-":
+                            operator = "-";
                             break;
                         default:
                             num_of_dice = Integer.parseInt(symbol);
@@ -162,6 +193,12 @@ public class SaveActivity extends AppCompatActivity {
                     }
                 }
                 Roll new_roll = new Roll(name, d4, d6, d8, d10, d12, d20, mod);
+                Log.d("D4", Integer.toString(d4));
+                Log.d("D6", Integer.toString(d6));
+                Log.d("D8", Integer.toString(d8));
+                Log.d("D10", Integer.toString(d10));
+                Log.d("D12", Integer.toString(d12));
+                Log.d("D20", Integer.toString(d20));
                 handler.addRoll(new_roll); //The Roll is saved
                 return 0;
             }
