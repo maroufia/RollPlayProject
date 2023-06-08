@@ -19,6 +19,7 @@ Sub-activity of MainActivity
 Gets roll information and the user can choose to save it on an SQLite Database for future use
  */
 public class SaveActivity extends AppCompatActivity {
+    //Checks if Dark Mode or Light Mode is enabled and sets its theme accordingly.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Objects.requireNonNull(getSupportActionBar()).hide();

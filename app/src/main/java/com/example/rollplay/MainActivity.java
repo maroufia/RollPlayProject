@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
         Objects.requireNonNull(getSupportActionBar()).hide();
 
-        //idfk
+        //Checks if Dark Mode or Light Mode is enabled and sets its theme accordingly.
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
             setTheme(R.style.DarkMode);
         else

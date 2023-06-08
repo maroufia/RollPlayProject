@@ -24,6 +24,7 @@ If the user selects a roll and presses the Confirm button its info gets passed t
 public class UseSavedActivity extends AppCompatActivity {
 
     @Override
+    //Checks if Dark Mode or Light Mode is enabled and sets its theme accordingly.
     protected void onCreate(Bundle savedInstanceState) {
         Objects.requireNonNull(getSupportActionBar()).hide();
 

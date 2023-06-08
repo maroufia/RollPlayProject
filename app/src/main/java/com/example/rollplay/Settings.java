@@ -18,11 +18,11 @@ import java.util.ArrayList;
 
 public class Settings extends AppCompatActivity {
 
-    private SwitchCompat dark_light;
-    static  final  String PREF_NAME = "MyAppPrefs";
-    static  final  String DARK_MODE_KEY = "darkMode";
-    SharedPreferences sharedPreferences;
-    ArrayList<String> recentRolls;
+    private SwitchCompat dark_light;// declares a private instance variable dark_light of type SwitchCompat, which is a UI component used for toggling between two states (on/off).
+    static  final  String PREF_NAME = "MyAppPrefs";//declares a constant variable PREF_NAME of type String and assigns it the value "MyAppPrefs". This constant represents the name of the shared preferences file.
+    static  final  String DARK_MODE_KEY = "darkMode";//declares another constant variable DARK_MODE_KEY of type String and assigns it the value "darkMode".
+    SharedPreferences sharedPreferences;//declares a variable sharedPreferences of type SharedPreferences, which is used to store and retrieve key-value pairs. It will be used to access the shared preferences file.
+    ArrayList<String> recentRolls;//.
     ArrayList<String> recentRollResults;
     ArrayList<String> recentModifiers;
 
@@ -123,7 +123,7 @@ public class Settings extends AppCompatActivity {
         };
 
         view_delete.setOnClickListener(view_delete_lstnr);
-
+        //checks if darkModeEnabled is true which if it is it checks the switch and it applies dark mode.
         sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         boolean darkModeEnabled = sharedPreferences.getBoolean(DARK_MODE_KEY, false);
 
@@ -138,6 +138,9 @@ public class Settings extends AppCompatActivity {
         applyDarkMode(darkModeEnabled);
     }
 
+    //onResume() method override: Overrides the superclass's onResume() method for activity resumption.
+    //Default actions: super.onResume() performs default actions during activity resumption.
+    //Dark mode handling: Retrieves dark mode preference, sets switch state, and updates app's night mode.
     @Override
     protected void onResume() {
         super.onResume();
@@ -145,7 +148,7 @@ public class Settings extends AppCompatActivity {
         dark_light.setChecked(darkModeEnabled);
         applyDarkMode(darkModeEnabled);
     }
-
+    //Checks if Dark Mode or Light Mode is enabled and sets its theme accordingly.
     void applyDarkMode(boolean darkModeEnabled) {
         if (darkModeEnabled) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);

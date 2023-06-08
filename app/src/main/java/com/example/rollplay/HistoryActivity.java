@@ -13,6 +13,7 @@ import java.util.Objects;
 
 public class HistoryActivity extends AppCompatActivity {
 
+        //Checks if Dark Mode or Light Mode is enabled and sets its theme accordingly.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 

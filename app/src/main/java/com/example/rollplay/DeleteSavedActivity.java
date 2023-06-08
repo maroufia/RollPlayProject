@@ -24,6 +24,7 @@ If the user selects a roll its info gets passed to the DeleteActivity
  */
 public class DeleteSavedActivity extends AppCompatActivity {
 
+    //Checks if Dark Mode or Light Mode is enabled and sets its theme accordingly.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Objects.requireNonNull(getSupportActionBar()).hide();
