@@ -1088,7 +1088,7 @@ public class MainActivity extends AppCompatActivity {
         settings.setOnClickListener(settingsButton);
     }
 
-    //idfk
+    //Remembers if dark Mode is enabled when the App opens (or is resumed)
     @Override
     protected void onResume() {
         super.onResume();
@@ -1096,7 +1096,7 @@ public class MainActivity extends AppCompatActivity {
         applyDarkMode(darkModeEnabled);
     }
 
-    //idfk
+    //Determines if dark mode is enabled or not.
     void applyDarkMode(boolean darkModeEnabled) {
         if (darkModeEnabled) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
