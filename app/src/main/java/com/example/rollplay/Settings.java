@@ -18,48 +18,54 @@ import java.util.ArrayList;
 
 public class Settings extends AppCompatActivity {
 
-    private SwitchCompat dark_light;// declares a private instance variable dark_light of type SwitchCompat, which is a UI component used for toggling between two states (on/off).
-    static  final  String PREF_NAME = "MyAppPrefs";//declares a constant variable PREF_NAME of type String and assigns it the value "MyAppPrefs". This constant represents the name of the shared preferences file.
-    static  final  String DARK_MODE_KEY = "darkMode";//declares another constant variable DARK_MODE_KEY of type String and assigns it the value "darkMode".
-    SharedPreferences sharedPreferences;//declares a variable sharedPreferences of type SharedPreferences, which is used to store and retrieve key-value pairs. It will be used to access the shared preferences file.
-    ArrayList<String> recentRolls;//.
-    ArrayList<String> recentRollResults;
-    ArrayList<String> recentModifiers;
+    private SwitchCompat dark_light; // Declares a private instance variable dark_light of type SwitchCompat, which is a UI component used for toggling between two states (on/off).
+    static  final  String PREF_NAME = "MyAppPrefs"; //Declares a constant variable PREF_NAME of type String and assigns it the value "MyAppPrefs". This constant represents the name of the shared preferences file.
+    static  final  String DARK_MODE_KEY = "darkMode"; //Declares another constant variable DARK_MODE_KEY of type String and assigns it the value "darkMode".
+    SharedPreferences sharedPreferences; //Declares a variable sharedPreferences of type SharedPreferences, which is used to store and retrieve key-value pairs. It will be used to access the shared preferences file.
+    ArrayList<String> recentRolls;//Holds the 4 most recent thrown rolls (number of die for each type)
+    ArrayList<String> recentRollResults;//Holds the 4 most recent thrown rolls' results
+    ArrayList<String> recentModifiers;//Holds the 4 most recent thrown rolls' modifiers
 
-    private String selected;
-    private ArrayList<String> MainText;
-    private boolean d4_enabled;
-    private boolean d6_enabled;
-    private boolean d8_enabled;
-    private boolean d10_enabled;
-    private boolean d12_enabled;
-    private boolean d20_enabled;
-    private boolean plus_enabled;
-    private boolean minus_enabled;
-    private boolean rollsbar_enabled;
-    private String rollsbar_text;
-    private boolean add_enabled;
-    private boolean usesaved_enabled;
-    private boolean clearlast_enabled;
-    private boolean clearall_enabled;
-    private String mainview_text;
-    private boolean modifier_enabled;
-    private boolean save_enabled;
-    private boolean roll_enabled;
-    private boolean details_enabled;
-    private int rollsbar_value;
-    private String modifier_value;
-    private ArrayList<Integer> d4_rolls;
-    private ArrayList<Integer> d6_rolls;
-    private ArrayList<Integer> d8_rolls;
-    private ArrayList<Integer> d10_rolls;
-    private ArrayList<Integer> d12_rolls;
-    private ArrayList<Integer> d20_rolls;
+    private String selected; //The currently selected dice
+    private ArrayList<String> MainText; //ArrayList that includes the roll's required info for the result calculation (Something like ["+"(sign),"5"(number of dice),"d6"(dice type),"-","14","d10"...])
+    private boolean d4_enabled; //True if the d4 dice is enabled
+    private boolean d6_enabled; //True if the d6 dice is enabled
+    private boolean d8_enabled; //True if the d8 dice is enabled
+    private boolean d10_enabled; //True if the d10 dice is enabled
+    private boolean d12_enabled; //True if the d12 dice is enabled
+    private boolean d20_enabled; //True if the d20 dice is enabled
+    private boolean plus_enabled; //True if the plus button is enabled
+    private boolean minus_enabled; //True if the minus button is enabled
+    private boolean rollsbar_enabled; //True if the switch bar that controls the number of rolls is enabled
+    private String rollsbar_text; //Holds the value of the switch bar
+    private boolean add_enabled; //True if the add button is enabled
+    private boolean usesaved_enabled; //True if the Use Saved Roll button is enabled
+    private boolean clearlast_enabled; //True if the Clear Last button is enabled
+    private boolean clearall_enabled; //True if the Clear All button is enabled
+    private String mainview_text; //Holds the text of the main TextView (where the roll and result are displayed)
+    private boolean modifier_enabled; //True if the modifier EditText is enabled
+    private boolean save_enabled; //True if the Save Roll button is enabled
+    private boolean roll_enabled; //True if the Roll button is enabled
+    private boolean details_enabled; //True if the Details button is enabled
+    private int rollsbar_value; //Holds the current value of the rollsbar component and is added to the bundle and passed to the "Main Activity" when the back button is pressed
+    private String modifier_value; //holds the current value of the modifier component and is added to the bundle and passed to the "Main Activity" when the back button is pressed
+    private ArrayList<Integer> d4_rolls; //Holds the values of all the d4 die that were thrown in the previous roll
+    private ArrayList<Integer> d6_rolls; //Holds the values of all the d6 die that were thrown in the previous roll
+    private ArrayList<Integer> d8_rolls; //Holds the values of all the d8 die that were thrown in the previous roll
+    private ArrayList<Integer> d10_rolls; //Holds the values of all the d10 die that were thrown in the previous roll
+    private ArrayList<Integer> d12_rolls; //Holds the values of all the d12 die that were thrown in the previous roll
+    private ArrayList<Integer> d20_rolls; //Holds the values of all the d20 die that were thrown in the previous roll
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        //--------------------------------------------------
+        //--------------------------------------------------
+        //It saves the variables of the main function in order to return them when the user goes back to the main.
+        //--------------------------------------------------
+        //--------------------------------------------------
 
         Bundle bundle = getIntent().getExtras();
         selected = bundle.getString("selected");
@@ -114,7 +120,7 @@ public class Settings extends AppCompatActivity {
 
             arl.launch(intent);
         };
-
+        //It stops the Settings Activity and starts the History Sub activity
         history.setOnClickListener(history_button);
 
         View.OnClickListener view_delete_lstnr = v -> {
@@ -157,6 +163,7 @@ public class Settings extends AppCompatActivity {
         }
     }
 
+    //Returns to Main Activity with the button on the top left.
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -200,7 +207,7 @@ public class Settings extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
+    //Returns to Main Activity with the use of the device's back button
     public void onBackPressed(){
         Intent intent = new Intent(Settings.this, MainActivity.class);
         Bundle b = new Bundle();

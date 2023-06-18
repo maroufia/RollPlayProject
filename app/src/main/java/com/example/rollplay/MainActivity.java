@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> recentRolls; //Holds the 4 most recent thrown rolls (number of die for each type)
     private ArrayList<String> recentRollResults; //Holds the 4 most recent thrown rolls' results
     private ArrayList<String> recentModifiers; //Holds the 4 most recent thrown rolls' modifiers
-    SharedPreferences sharedPreferences; //idfk
+    SharedPreferences sharedPreferences; //Declares a variable sharedPreferences of type SharedPreferences, which is used to store and retrieve key-value pairs. It will be used to access the shared preferences file.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
