@@ -129,7 +129,7 @@ public class Settings extends AppCompatActivity {
         };
 
         view_delete.setOnClickListener(view_delete_lstnr);
-        //checks if darkModeEnabled is true which if it is it checks the switch and it applies dark mode.
+        //Checks if darkModeEnabled is true which if it is it checks the switch and it applies dark mode.
         sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         boolean darkModeEnabled = sharedPreferences.getBoolean(DARK_MODE_KEY, false);
 
